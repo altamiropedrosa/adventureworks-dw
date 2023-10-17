@@ -1,0 +1,51 @@
+version: 2
+
+sources:
+  - name: sap_adw
+    description: Fonte do SAP do Adventure Works
+    schema: sap_adw
+    tables:
+      - name: product  # enabled
+        description: Tabela de produtos
+      - name: productcategory  # enabled
+        description: Tabela de categorias de produtos
+        columns:
+          - name: productcategoryid
+            description: chave primária da tabela de categorias de produtos
+            tests:
+              - unique
+              - not_null
+      - name: productsubcategory
+        description: Tabela de sub-categoria de produtos
+      - name: productmodel
+        description: Tabela de modelo de produtos
+      - name: unitmeasure
+        description: Tabela de unidade de medidas
+      - name: customer
+        description: Tabela de clientes
+      - name: store
+        description: Tabela de lojas
+      - name: salesterritory
+        description: Tabela de território de vendas
+      - name: salesperson
+        description: Tabela de vendedores
+      - name: credicard
+        description: Tabela de cartão de crédito
+      - name: personcreditcard
+        description: Tabela de cartão de crédito por pessoa
+      - name: salesorderheader
+        description: Tabela de pedido de vendas
+      - name: salesorderdetail
+        description: Tabela de itens de pedido de vendas
+      - name: salesorderheadersalesreason
+        description: Tabela de razão de vendas por Venda
+      - name: salesreason
+        description: Tabela de razão de vendas
+      - name: specialoffer
+        description: Tabela de ofertas
+      - name: specialofferproduct
+        description: Tabela de ofertas por Produto
+      - name: currency
+        description: Tabela de moedas
+      - name: currencyrate
+        description: Tabela de taxa de câmbio
