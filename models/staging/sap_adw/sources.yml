@@ -29,6 +29,24 @@ sources:
         description: Tabela de modelo de produtos
       - name: unitmeasure
         description: Tabela de unidade de medidas
+      - name: person
+        description: Tabela de pessoas
+      - name: businessentity
+        description: Tabela de entidade de negócio  
+      - name: businessentitycontact
+        description: Tabela de contatos de entidade de negócio
+      - name: businessentityaddress
+        description: Tabela de endereços de entidade de negócio
+      - name: contacttype
+        description: Tabela de tipos de contatos
+      - name: addresstype
+        description: Tabela de tipos de endereço
+      - name: emailaddress
+        description: Tabela de e-mails de pessoas
+      - name: personphone
+        description: Tabela de telefones de pessoas
+      - name: phonenumbertype
+        description: Tabela de tipo de telefones de pessoas
       - name: customer
         description: Tabela de clientes
       - name: store
@@ -57,5 +75,4 @@ sources:
         description: Tabela de taxa de câmbio
       - name: shipmethod  
         description: Tabela de método de envio
-      - name: unitmeasure
-        description: Tabela de unidade de medidas
+
