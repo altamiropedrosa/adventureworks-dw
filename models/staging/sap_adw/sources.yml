@@ -1,0 +1,78 @@
+version: 2
+
+sources:
+  - name: sap_adw
+    description: Fonte do SAP do Adventure Works
+    schema: sap_adw
+    tables:
+      - name: address
+        description: Tabela de endereços
+      - name: stateprovince
+        description: Tabela de Estados
+      - name: countryregion
+        description: Tabela de País
+      - name: salesterritory
+        description: Tabela de território de vendas
+      - name: product  # enabled
+        description: Tabela de produtos
+      - name: productcategory  # enabled
+        description: Tabela de categorias de produtos
+        columns:
+          - name: productcategoryid
+            description: chave primária da tabela de categorias de produtos
+            tests:
+              - unique
+              - not_null
+      - name: productsubcategory
+        description: Tabela de sub-categoria de produtos
+      - name: productmodel
+        description: Tabela de modelo de produtos
+      - name: unitmeasure
+        description: Tabela de unidade de medidas
+      - name: person
+        description: Tabela de pessoas
+      - name: businessentity
+        description: Tabela de entidade de negócio  
+      - name: businessentitycontact
+        description: Tabela de contatos de entidade de negócio
+      - name: businessentityaddress
+        description: Tabela de endereços de entidade de negócio
+      - name: contacttype
+        description: Tabela de tipos de contatos
+      - name: addresstype
+        description: Tabela de tipos de endereço
+      - name: emailaddress
+        description: Tabela de e-mails de pessoas
+      - name: personphone
+        description: Tabela de telefones de pessoas
+      - name: phonenumbertype
+        description: Tabela de tipo de telefones de pessoas
+      - name: customer
+        description: Tabela de clientes
+      - name: store
+        description: Tabela de lojas
+      - name: salesperson
+        description: Tabela de vendedores
+      - name: credicard
+        description: Tabela de cartão de crédito
+      - name: personcreditcard
+        description: Tabela de cartão de crédito por pessoa
+      - name: salesorderheader
+        description: Tabela de pedido de vendas
+      - name: salesorderdetail
+        description: Tabela de itens de pedido de vendas
+      - name: salesorderheadersalesreason
+        description: Tabela de razão de vendas por Venda
+      - name: salesreason
+        description: Tabela de razão de vendas
+      - name: specialoffer
+        description: Tabela de ofertas
+      - name: specialofferproduct
+        description: Tabela de ofertas por Produto
+      - name: currency
+        description: Tabela de moedas
+      - name: currencyrate
+        description: Tabela de taxa de câmbio
+      - name: shipmethod  
+        description: Tabela de método de envio
+
