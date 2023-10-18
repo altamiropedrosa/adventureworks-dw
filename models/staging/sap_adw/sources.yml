@@ -5,6 +5,14 @@ sources:
     description: Fonte do SAP do Adventure Works
     schema: sap_adw
     tables:
+      - name: address
+        description: Tabela de endereços
+      - name: stateprovince
+        description: Tabela de Estados
+      - name: countryregion
+        description: Tabela de País
+      - name: salesterritory
+        description: Tabela de território de vendas
       - name: product  # enabled
         description: Tabela de produtos
       - name: productcategory  # enabled
@@ -25,8 +33,6 @@ sources:
         description: Tabela de clientes
       - name: store
         description: Tabela de lojas
-      - name: salesterritory
-        description: Tabela de território de vendas
       - name: salesperson
         description: Tabela de vendedores
       - name: credicard
@@ -49,3 +55,7 @@ sources:
         description: Tabela de moedas
       - name: currencyrate
         description: Tabela de taxa de câmbio
+      - name: shipmethod  
+        description: Tabela de método de envio
+      - name: unitmeasure
+        description: Tabela de unidade de medidas
