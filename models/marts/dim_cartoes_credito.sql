@@ -31,6 +31,7 @@ with
     ,refined as (
         select 
             row_number() over(order by creditcardid) as sk_cartao_credito
+            ,{{ dbt_utils.generate_surrogate_key('creditcardid','cardnumber') }} as pk_cartao_credito
             ,join_tables.*
         from join_tables
     )
