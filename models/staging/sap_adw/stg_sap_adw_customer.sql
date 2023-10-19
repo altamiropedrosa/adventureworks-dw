@@ -9,7 +9,7 @@ source as (
 renamed as (
 
     select
-        customerid as pk_cliente
+        customerid
         ,personid
         ,storeid
         ,territoryid
