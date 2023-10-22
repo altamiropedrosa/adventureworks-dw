@@ -1,29 +1,29 @@
 with 
-    stg_territorio as (
-        select * from {{ ref('stg_sap_adw_salesterritory') }}
+    stg_territorios as (
+        select * from {{ ref('stg_sap_adw_territorios') }}
     )
-    ,stg_pais as (
-        select * from {{ ref('stg_sap_adw_countryregion') }}
+    ,stg_paises as (
+        select * from {{ ref('stg_sap_adw_paises') }}
     )    
     
     ,join_tables as (
         select 
-            ter.territoryid as nk_id_territorio
-            ,ter.name as nome_territorio
-            ,ter.countryregioncode as sigla_pais
-            ,pai.name as nome_pais 
-            ,ter.grupo as grupo_territorio
-            ,round(ter.salesytd,2) as total_vendas_ytd
-            ,round(ter.saleslastyear,2) as total_vendas_ultimo_ano
-            ,round(ter.costytd,2) as total_custo_ytd
-            ,round(ter.costlastyear,2) as total_custo_ultimo_ano
-        from stg_territorio ter
-        left join stg_pais pai on pai.countryregioncode = ter.countryregioncode
+            ter.id_territorio
+            ,ter.nm_territorio
+            ,ter.cd_pais
+            ,pai.nm_pais 
+            ,ter.ds_grupo_territorio
+            ,round(ter.vl_venda_ytd,2) as vl_venda_ytd
+            ,round(ter.vl_venda_ultimo_ano,2) as vl_venda_ultimo_ano
+            ,round(ter.vl_custo_ytd,2) as vl_custo_ytd
+            ,round(ter.vl_custo_ultimo_ano,2) as vl_custo_ultimo_ano
+        from stg_territorios ter
+        left join stg_paises pai on pai.cd_pais = ter.cd_pais
     )
 
     ,refined as (
         select 
-            row_number() over(order by nk_id_territorio) as sk_territorio
+            {{ dbt_utils.generate_surrogate_key(['id_territorio']) }} as sk_territorio
             ,join_tables.*
         from join_tables
     )
