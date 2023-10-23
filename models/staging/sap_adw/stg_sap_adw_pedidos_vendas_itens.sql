@@ -14,7 +14,7 @@ renamed as (
         ,carriertrackingnumber as nr_rastreamento
         ,orderqty as qt_pedido
         ,productid as id_produto
-        ,specialofferid as id_oferta
+        ,specialofferid as id_promocao
         ,unitprice as vl_unitario
         ,unitpricediscount as vl_desconto
         ,rowguid

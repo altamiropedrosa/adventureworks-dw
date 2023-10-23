@@ -9,13 +9,13 @@ source as (
 renamed as (
 
     select
-        specialofferid as id_oferta
-        ,description as ds_oferta
+        specialofferid as id_promocao
+        ,description as ds_promocao
         ,discountpct as pc_desconto
-        ,type as ds_tipo_oferta
-        ,category as ds_categoria_oferta
-        ,startdate as dt_inicio_oferta
-        ,enddate as dt_fim_oferta
+        ,type as ds_tipo_promocao
+        ,category as ds_categoria_promocao
+        ,startdate as dt_inicio_promocao
+        ,enddate as dt_fim_promocao
         ,minqty as qt_minima
         ,maxqty as qt_maxima
         ,rowguid
