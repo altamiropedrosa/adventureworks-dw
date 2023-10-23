@@ -22,8 +22,8 @@ renamed as (
         ,salespersonid as id_vendedor
         ,territoryid as id_territorio
         ,billtoaddressid as id_endereco_cobranca
-        ,shiptoaddressid as id_endereco_envio
-        ,shipmethodid as id_metodo_envio
+        ,shiptoaddressid as id_endereco_entrega
+        ,shipmethodid as id_forma_envio
         ,creditcardid as id_cartao_credito
         ,creditcardapprovalcode as cd_aprovacao_cartao_credito
         ,currencyrateid as id_taxa_cambio

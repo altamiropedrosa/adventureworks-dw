@@ -66,7 +66,6 @@ with
         left join stg_modelo_produtos mod on mod.id_modelo_produto = prd.id_modelo_produto
         left join stg_unidademedida_produtos undtam on undtam.cd_unidade_medida = prd.cd_unidade_medida_tamanho
         left join stg_unidademedida_produtos undpes on undpes.cd_unidade_medida = prd.cd_unidade_medida_peso
-        where prd.id_produto = 771
     )
 
     ,refined as (

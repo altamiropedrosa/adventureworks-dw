@@ -9,9 +9,9 @@ source as (
 renamed as (
 
     select
-        salesreasonid as id_razao_venda
-        ,name as nm_razao_venda
-        ,reasontype as cd_tipo_razao
+        salesreasonid as id_motivo_venda
+        ,name as nm_motivo_venda
+        ,reasontype as cd_motivo_razao
         ,modifieddate as dt_modificacao
 
     from source

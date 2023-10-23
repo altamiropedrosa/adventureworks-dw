@@ -37,4 +37,4 @@ renamed as (
 
 )
 
-select * from renamed where cd_unidade_medida_peso is not null and cd_unidade_medida_tamanho is not null
+select * from renamed
