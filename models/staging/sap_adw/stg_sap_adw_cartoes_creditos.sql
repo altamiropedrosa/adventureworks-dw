@@ -1,23 +1,23 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'creditcard') }}
+        select * from {{ source('sap_adw', 'creditcard') }}
 
-),
+    )
 
-renamed as (
+    ,renamed as (
 
-    select
-        creditcardid as id_cartao_credito
-        ,cardtype as cd_tipo_cartao
-        ,cardnumber as nr_cartao
-        ,expmonth as nr_expiracao_mes
-        ,expyear as nr_expiracao_ano
-        ,modifieddate as dt_modificacao
+        select
+            cast(creditcardid as int) as id_cartao_credito
+            ,trim(cardtype) as cd_tipo_cartao
+            ,cast(cardnumber as int)as nr_cartao
+            ,cast(expmonth as int) as nr_expiracao_mes
+            ,cast(expyear as int) as nr_expiracao_ano
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao 
 
-    from source
+        from source
 
-)
+    )
 
 select * from renamed

@@ -1,40 +1,55 @@
-with source as (
+with 
 
-    select * from {{ source('sap_adw', 'product') }}
+    source as (
 
-),
+        select * from {{ source('sap_adw', 'product') }}
 
-renamed as (
+    )
 
-    select
-        cast(productid as int) as id_produto
-        ,name as nm_produto
-        ,productnumber nr_produto
-        ,makeflag as is_producao_propria
-        ,finishedgoodsflag as is_item_vendavel
-        ,color as ds_cor
-        ,safetystocklevel as qt_minima_estoque
-        ,reorderpoint as qt_minima_reabastecimento
-        ,standardcost as vl_custo_producao
-        ,listprice as vl_venda
-        ,size as nr_tamanho
-        ,sizeunitmeasurecode as cd_unidade_medida_tamanho
-        ,weightunitmeasurecode as cd_unidade_medida_peso
-        ,weight as nr_peso
-        ,daystomanufacture as qt_dias_para_fabricacao
-        ,productline as cd_linha_produto
-        ,class as cd_classificacao
-        ,style as cd_estilo
-        ,productsubcategoryid as id_subcategoria_produto
-        ,productmodelid as id_modelo_produto
-        ,sellstartdate as dt_inicio_venda
-        ,sellenddate as dt_fim_venda
-        ,discontinueddate as dt_descontinuado
-        ,rowguid
-        ,modifieddate as dt_modificacao
+    ,renamed as (
 
-    from source
+        select
+            cast(productid as int) as id_produto
+            ,trim(name) as nm_produto
+            ,trim(productnumber) as nr_produto
+            ,cast(makeflag as boolean) as is_producao_propria
+            ,cast(finishedgoodsflag as boolean) as is_item_vendavel
+            ,trim(color) as ds_cor
+            ,cast(safetystocklevel as int) as qt_minima_estoque
+            ,cast(reorderpoint as int) as qt_minima_reabastecimento
+            ,coalesce(round(cast(standardcost as numeric),2),0) as vl_custo_producao
+            ,coalesce(round(cast(listprice as numeric),2),0) as vl_venda
+            ,trim(size) as nr_tamanho
+            ,trim(sizeunitmeasurecode) as cd_unidade_medida_tamanho
+            ,trim(weightunitmeasurecode) as cd_unidade_medida_peso
+            ,coalesce(round(cast(weight as numeric),2),0.0) as nr_peso
+            ,coalesce(cast(daystomanufacture as int),0) as qt_dias_para_fabricacao
+            ,case when upper(productline) = 'R' then 'Estrada'
+                when upper(productline) = 'M' then 'Montanha'
+                when upper(productline) = 'T' then 'Turismo'
+                when upper(productline) = 'S' then 'Padrão'
+                else null
+            end cd_linha_produto
+            ,case when upper(class) = 'H' then 'Alto'
+                when upper(class) = 'M' then 'Médio'
+                when upper(class) = 'L' then 'Baixo'
+                else null
+            end as cd_classificacao_produto
+            ,case when upper(style) = 'W' then 'Mulher'
+                when upper(style) = 'M' then 'Homem'
+                when upper(style) = 'U' then 'Universal'
+                else null
+            end as cd_estilo_produto 
+            ,cast(productsubcategoryid as int) as id_subcategoria_produto
+            ,cast(productmodelid as int) as id_modelo_produto
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(sellstartdate as timestamp)) as timestamp) as dt_inicio_venda        
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(sellenddate as timestamp)) as timestamp) as dt_fim_venda        
+            ,case when discontinueddate is null then false else true end as is_descontinuado
+            ,rowguid
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-)
+        from source
+
+    )
 
 select * from renamed

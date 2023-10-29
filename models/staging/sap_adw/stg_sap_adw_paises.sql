@@ -1,20 +1,20 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'countryregion') }}
+        select * from {{ source('sap_adw', 'countryregion') }}
 
-),
+    )
 
-renamed as (
+    ,renamed as (
 
-    select
-        countryregioncode as cd_pais
-        ,name as nm_pais
-        ,modifieddate as dt_modificacao
+        select
+            trim(countryregioncode) as cd_pais
+            ,trim(name) as nm_pais
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-    from source
+        from source
 
-)
+    )
 
 select * from renamed

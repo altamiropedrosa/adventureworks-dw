@@ -1,20 +1,20 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'phonenumbertype') }}
+        select * from {{ source('sap_adw', 'phonenumbertype') }}
 
-),
+    )
+    
+    ,renamed as (
 
-renamed as (
+        select
+            cast(phonenumbertypeid as int) as id_tipo_telefone
+            ,trim(name) as nm_tipo_telefone
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-    select
-        phonenumbertypeid as id_tipo_telefone
-        ,name as nm_tipo_telefone
-        ,modifieddate as dt_modificacao
+        from source
 
-    from source
-
-)
+    )
 
 select * from renamed

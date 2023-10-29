@@ -1,20 +1,20 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'contacttype') }}
+        select * from {{ source('sap_adw', 'contacttype') }}
 
-),
+    )
 
-renamed as (
+    ,renamed as (
 
-    select
-        contacttypeid as id_tipo_contato
-        ,name as nm_tipo_contato
-        ,modifieddate as dt_modificacao
+        select
+            cast(contacttypeid as int) as id_tipo_contato
+            ,trim(name) as nm_tipo_contato
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-    from source
+        from source
 
-)
+    )
 
 select * from renamed

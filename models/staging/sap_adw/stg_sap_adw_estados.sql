@@ -1,25 +1,25 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'stateprovince') }}
+        select * from {{ source('sap_adw', 'stateprovince') }}
 
-),
+    )
 
-renamed as (
+    ,renamed as (
 
-    select
-        stateprovinceid as id_estado
-        ,stateprovincecode cd_estado
-        ,countryregioncode as cd_pais
-        ,isonlystateprovinceflag as is_estado_pais
-        ,name as nm_estado
-        ,territoryid id_territorio
-        ,rowguid
-        ,modifieddate as dt_modificacao
+        select
+            cast(stateprovinceid as int) as id_estado
+            ,trim(stateprovincecode) as cd_estado
+            ,trim(countryregioncode) as cd_pais
+            ,cast(isonlystateprovinceflag as boolean) as is_estado_pais
+            ,trim(name) as nm_estado
+            ,cast(territoryid as int) as id_territorio
+            ,rowguid
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-    from source
+        from source
 
-)
+    )
 
 select * from renamed

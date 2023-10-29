@@ -2,32 +2,24 @@ with
     stg_clientes as (
         select * from {{ ref('stg_sap_adw_clientes') }}
     )
-    ,stg_pessoas as (
-        select * from {{ ref('stg_sap_adw_pessoas') }}
+    ,int_pessoas as (
+        select * from {{ ref('int_pessoas_joins') }}
     )
-    ,stg_territorios as (
-        select * from {{ ref('stg_sap_adw_territorios') }}
-    )
-    ,stg_paises as (
-        select * from {{ ref('stg_sap_adw_paises') }}
-    )    
     ,stg_lojas as (
         select * from {{ ref('stg_sap_adw_lojas') }}
     )
-    ,stg_telefones as (
-        select * from {{ ref('stg_sap_adw_pessoas_telefones') }}
+    ,int_vendas_pedidos_itens as (
+        select * from {{ ref('int_vendas_pedidos_itens') }}
     )
-    ,stg_tipos_telefones as (
-        select * from {{ ref('stg_sap_adw_tipos_telefones') }}
-    )
-    ,stg_lifetimevalue as (
+
+    ,stg_ltv as (
         select 
             id_cliente
-            ,cast(min(dt_pagamento) as datetime) as dt_primeiro_pedido
-            ,count(id_pedido_venda) as qt_pedidos
+            ,min(dt_pagamento) as dt_primeiro_pedido
+            ,count(distinct id_pedido_venda) as qt_pedidos
             ,DATETIME_DIFF(current_date(), cast(max(dt_pagamento) as datetime), MONTH) as qt_meses_ultimo_pedido
-            ,round(sum(vl_pago),2) as vl_life_time_value
-        from {{ ref('stg_sap_adw_pedidos_vendas') }}
+            ,sum(vl_total_item) as vl_life_time_value
+        from int_vendas_pedidos_itens
         where dt_pagamento is not null
         group by id_cliente
     )
@@ -36,42 +28,37 @@ with
         select 
             cli.id_cliente
             ,cli.id_pessoa
-            ,case when cli.id_pessoa is null then 'Não Identificado' 
-                else concat(case when pescli.ds_titulo is null then '' else pescli.ds_titulo end,' ',
-                            case when pescli.ds_primeiro_nome is null then '' else pescli.ds_primeiro_nome end,' ',
-                            case when pescli.ds_nome_meio is null then '' else pescli.ds_nome_meio end,' ',
-                            case when pescli.ds_ultimo_nome is null then '' else pescli.ds_ultimo_nome end) 
-            end as nm_cliente
-            ,case when pescli.cd_email_promocional = 0 then 'NAO CONTACTAR'
-                when pescli.cd_email_promocional = 1 then 'CONTACTAR POR ADW'
-                when pescli.cd_email_promocional = 2 then 'CONTACTAR POR ADW + PARCEIROS'
-                else null
-            end as cd_email_promocional
+            ,pescli.nm_pessoa as nm_cliente
+            ,pescli.cd_email_promocional
+            ,pescli.ds_email
+            ,pescli.nm_tipo_telefone
+            ,pescli.nr_telefone
+            ,pescli.nm_tipo_endereco
+            ,pescli.id_endereco
+            ,pescli.ds_endereco
+            ,pescli.nm_cidade
+            ,pescli.id_estado
+            ,pescli.cd_estado
+            ,pescli.nm_estado
+            ,pescli.nr_cep
+            ,pescli.cd_pais
+            ,pescli.nm_pais
+            ,pescli.id_territorio
+            ,pescli.nm_territorio
+            ,pescli.ds_grupo_territorio
             ,cli.id_loja
             ,loj.nm_loja
             ,loj.id_vendedor
-            ,case when loj.id_vendedor is null then 'Não Identificado' 
-                else concat(case when pesven.ds_titulo is null then '' else pesven.ds_titulo end,' ',
-                            case when pesven.ds_primeiro_nome is null then '' else pesven.ds_primeiro_nome end,' ',
-                            case when pesven.ds_nome_meio is null then '' else pesven.ds_nome_meio end,' ',
-                            case when pesven.ds_ultimo_nome is null then '' else pesven.ds_ultimo_nome end) 
-            end as nm_vendedor
-            ,cli.id_territorio
-            ,ter.nm_territorio
-            ,ter.ds_grupo_territorio
-            ,ter.cd_pais
-            ,pai.nm_pais 
-            ,case when ltv.qt_pedidos is null then 0 else ltv.qt_pedidos end as qt_pedidos
-            ,ltv.qt_meses_ultimo_pedido
-            ,case when ltv.vl_life_time_value is null then 0 else ltv.vl_life_time_value end as vl_life_time_value
+            ,pesven.nm_pessoa as nm_vendedor
+            ,coalesce(ltv.qt_pedidos,0) as qt_pedidos
+            ,coalesce(ltv.qt_meses_ultimo_pedido,0) as qt_meses_ultimo_pedido
+            ,coalesce(ltv.vl_life_time_value,0) as vl_life_time_value
 
         from stg_clientes cli
-        left join stg_pessoas pescli on pescli.id_pessoa = cli.id_pessoa
-        left join stg_territorios ter on ter.id_territorio = cli.id_territorio
-        left join stg_paises pai on pai.cd_pais = ter.cd_pais
+        left join int_pessoas pescli on pescli.id_pessoa = cli.id_pessoa
         left join stg_lojas loj on loj.id_loja = cli.id_loja
-        left join stg_pessoas pesven on pesven.id_pessoa = loj.id_vendedor
-        left join stg_lifetimevalue ltv on ltv.id_cliente = cli.id_cliente
+        left join int_pessoas pesven on pesven.id_pessoa = loj.id_vendedor
+        left join stg_ltv ltv on ltv.id_cliente = cli.id_cliente
     )
 
     ,refined as (
@@ -81,4 +68,4 @@ with
         from join_tables
     )
 
-select * from refined 
+select * from refined

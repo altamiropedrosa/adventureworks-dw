@@ -1,0 +1,15 @@
+version: 2
+models:
+  - name: dim_clientes
+    description: Essa é a dimensão com informações dos clientes da Adventure Works.
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('stg_sap_adw_clientes')
+    columns:
+      - name: sk_cliente
+        description: Essa é a chave primaria (SK) da dimensão clientes.
+        tests:
+          - unique
+          - not_null
+      - name: id_pessoa
+        description: Essa é a chave natural do id

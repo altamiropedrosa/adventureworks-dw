@@ -1,20 +1,20 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'businessentity') }}
+        select * from {{ source('sap_adw', 'businessentity') }}
 
-),
+    )
 
-renamed as (
+    ,renamed as (
 
-    select
-        businessentityid as id_entidade_negocio
-        ,rowguid
-        ,modifieddate as dt_modificacao
+        select
+            cast(businessentityid as int) as id_entidade_negocio
+            ,rowguid
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-    from source
+        from source
 
-)
+    )
 
 select * from renamed

@@ -2,15 +2,16 @@ with
 
     source as (
 
-        select * from {{ source('sap_adw', 'addresstype') }}
+        select * from {{ source('sap_adw', 'businessentityaddress') }}
 
     )
 
     ,renamed as (
 
         select
-            cast(addresstypeid as int) as id_tipo_endereco
-            ,trim(name) as nm_tipo_endereco
+            cast(businessentityid as int) as id_entidade_negocio
+            ,cast(addressid as int) as id_endereco
+            ,cast(addresstypeid as int) as id_tipo_endereco
             ,rowguid
             ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 

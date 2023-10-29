@@ -1,21 +1,21 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'productcategory') }}
+        select * from {{ source('sap_adw', 'productcategory') }}
 
-),
+    )
 
-renamed as (
+    ,renamed as (
 
-    select
-        productcategoryid as id_categoria_produto
-        ,name as nm_categoria_produto
-        ,rowguid
-        ,modifieddate as dt_modificao
+        select
+            cast(productcategoryid as int) as id_categoria_produto
+            ,trim(name) as nm_categoria_produto
+            ,rowguid
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-    from source
+        from source
 
-)
+    )
 
 select * from renamed
