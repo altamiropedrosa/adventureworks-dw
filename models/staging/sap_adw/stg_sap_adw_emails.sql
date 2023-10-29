@@ -1,22 +1,22 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'emailaddress') }}
+        select * from {{ source('sap_adw', 'emailaddress') }}
 
-),
+    )
 
-renamed as (
+    ,renamed as (
 
-    select
-        businessentityid as id_entidade_negocio
-        ,emailaddressid as id_endereco_email
-        ,emailaddress as ds_email
-        ,rowguid
-        ,modifieddate as dt_modificacao
+        select
+            cast(businessentityid as int) as id_pessoa
+            ,cast(emailaddressid as int) as id_email
+            ,lower(trim(emailaddress)) as ds_email
+            ,rowguid
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-    from source
+        from source
 
-)
+    )
 
 select * from renamed

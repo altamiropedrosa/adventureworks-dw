@@ -35,22 +35,8 @@ with
             ,undpes.nm_unidade_medida as nm_unidade_medida_peso
             ,prd.qt_dias_para_fabricacao
             ,prd.cd_linha_produto
-            ,case when upper(prd.cd_linha_produto) = 'R' then 'ESTRADA'
-                when upper(prd.cd_linha_produto) = 'M' then 'MOUNTANHA'
-                when upper(prd.cd_linha_produto) = 'T' then 'TURISMO'
-                when upper(prd.cd_linha_produto) = 'S' then 'PADRAO'
-                else null
-            end ds_linha_produto
-            ,case when upper(prd.cd_classificacao) = 'H' then 'ALTO'
-                when upper(prd.cd_classificacao) = 'M' then 'MEDIO'
-                when upper(prd.cd_classificacao) = 'L' then 'BAIXO'
-                else null
-            end as cd_classificacao
-            ,case when upper(prd.cd_estilo) = 'W' then 'MULHER'
-                when upper(prd.cd_estilo) = 'M' then 'HOMEM'
-                when upper(prd.cd_estilo) = 'U' then 'UNIVERSAL'
-                else null
-            end as cd_estilo
+            ,prd.cd_classificacao_produto
+            ,prd.cd_estilo_produto
             ,cat.id_categoria_produto
             ,cat.nm_categoria_produto
             ,prd.id_subcategoria_produto
@@ -59,7 +45,7 @@ with
             ,mod.nm_modelo_produto
             ,prd.dt_inicio_venda
             ,prd.dt_fim_venda
-            ,prd.dt_descontinuado
+            ,prd.is_descontinuado
         from stg_produtos prd
         left join stg_subcategoria_produtos sub on sub.id_subcategoria_produto = prd.id_subcategoria_produto
         left join stg_categoria_produtos cat on cat.id_categoria_produto = sub.id_categoria_produto

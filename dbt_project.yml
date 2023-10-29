@@ -29,6 +29,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 vars:
   'dbt_date:time_zone': 'America/Sao_Paulo'
 
+
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
@@ -43,8 +44,12 @@ models:
     marts:
       +materialized: table
       +schema: marts
+    utils:
+      +materialized: table
+      +schema: sap_adw
 
-
+snapshots:
+  +target_schema: dbt_apedrosa_history
 
 seeds:
   dbt_apedrosa: # <-- Name of the project. If you renamed your project you have to change this as well

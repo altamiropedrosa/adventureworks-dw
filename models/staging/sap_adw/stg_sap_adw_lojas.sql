@@ -1,23 +1,23 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'store') }}
+        select * from {{ source('sap_adw', 'store') }}
 
-),
+    )
 
-renamed as (
+    ,renamed as (
 
-    select
-        businessentityid as id_loja
-        ,name as nm_loja
-        ,salespersonid as id_vendedor
-        ,demographics as ds_dados_demograficos
-        ,rowguid
-        ,modifieddate as dt_modificacao
+        select
+            cast(businessentityid as int) as id_loja
+            ,trim(name) as nm_loja
+            ,cast(salespersonid as int) as id_vendedor
+            ,demographics as ds_dados_demograficos
+            ,rowguid
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-    from source
+        from source
 
-)
+    )
 
 select * from renamed

@@ -1,20 +1,20 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'personcreditcard') }}
+        select * from {{ source('sap_adw', 'personcreditcard') }}
 
-),
+    )
 
-renamed as (
+    ,renamed as (
 
-    select
-        businessentityid as id_pessoa
-        ,creditcardid as id_cartao_credito
-        ,modifieddate as dt_modificacao
+        select
+            cast(businessentityid as int) as id_pessoa
+            ,cast(creditcardid as int) as id_cartao_credito
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-    from source
+        from source
 
-)
+    )
 
 select * from renamed

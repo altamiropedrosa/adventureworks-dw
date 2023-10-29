@@ -1,24 +1,24 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'currencyrate') }}
+        select * from {{ source('sap_adw', 'currencyrate') }}
 
-),
+    )
 
-renamed as (
+    ,renamed as (
 
-    select
-        currencyrateid as id_taxa_cambio
-        ,currencyratedate as dt_taxa_cambio
-        ,fromcurrencycode as cd_moeda_para
-        ,tocurrencycode as cd_moeda_de
-        ,averagerate as vl_medio
-        ,endofdayrate as vl_fechamento
-        ,modifieddate as dt_modificacao
+        select
+            cast(currencyrateid as int) as id_taxa_cambio
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(currencyratedate as timestamp)) as timestamp) as dt_taxa_cambio        
+            ,trim(fromcurrencycode) as cd_moeda_para
+            ,trim(tocurrencycode) as cd_moeda_de
+            ,round(cast(averagerate as numeric),4) as vl_medio
+            ,round(cast(endofdayrate as numeric),4) as vl_fechamento
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-    from source
+        from source
 
-)
+    )
 
 select * from renamed

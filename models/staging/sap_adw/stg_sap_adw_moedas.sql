@@ -1,20 +1,20 @@
 with 
 
-source as (
+    source as (
 
-    select * from {{ source('sap_adw', 'currency') }}
+        select * from {{ source('sap_adw', 'currency') }}
 
-),
+    )
 
-renamed as (
+    ,renamed as (
 
-    select
-        currencycode as cd_moeda
-        ,name as nm_moeda
-        ,modifieddate as dt_modificacao
+        select
+            trim(currencycode) as cd_moeda
+            ,trim(name) as nm_moeda
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 
-    from source
+        from source
 
-)
+    )
 
 select * from renamed
