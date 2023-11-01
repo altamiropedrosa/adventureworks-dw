@@ -14,7 +14,7 @@ with
             ,trim(city) as nm_cidade
             ,cast(stateprovinceid as int) as id_estado
             ,postalcode as nr_cep
-            ,spatiallocation as ds_dados_geograficos
+            ,spatiallocation as ds_localizacao_espacial
             ,rowguid as rowguid
             ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        
 

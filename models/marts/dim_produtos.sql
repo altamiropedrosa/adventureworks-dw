@@ -25,8 +25,8 @@ with
             ,prd.ds_cor
             ,prd.qt_minima_estoque
             ,prd.qt_minima_reabastecimento
-            ,round(prd.vl_custo_producao,2) as vl_custo_producao
-            ,round(prd.vl_venda,2) as vl_venda
+            ,round(prd.vl_custo_produto,2) as vl_custo_produto
+            ,round(prd.vl_tabela_produto,2) as vl_tabela_produto
             ,prd.nr_tamanho
             ,prd.nr_peso
             ,prd.cd_unidade_medida_tamanho
@@ -62,3 +62,5 @@ with
     )
 
 select * from refined
+
+

@@ -22,7 +22,7 @@ with
                 when status = 6 then 'Cancelado'
                 else 'Em processo'
             end as cd_status
-            ,cast(onlineorderflag as boolean) as is_pedido_online
+            ,cast(onlineorderflag as boolean) as is_pedido_realizado_cliente
             ,trim(purchaseordernumber) as nr_ordem_compra
             ,trim(accountnumber) as nr_conta_financeira
             ,cast(customerid as int) as id_cliente
@@ -45,5 +45,5 @@ with
         from source
     )
 
-select * from renamed where id_pedido_venda = 46607
+select * from renamed
 

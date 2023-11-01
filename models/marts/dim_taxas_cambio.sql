@@ -10,15 +10,15 @@ with
         select 
             tax.id_taxa_cambio
             ,tax.dt_taxa_cambio
-            ,tax.cd_moeda_de
-            ,moede.nm_moeda as nm_moeda_de
-            ,tax.cd_moeda_para
-            ,moepara.nm_moeda as nm_moeda_para
-            ,tax.vl_medio
-            ,tax.vl_fechamento
+            ,tax.cd_moeda_de_taxa_cambio
+            ,moede.nm_moeda as nm_moeda_de_taxa_cambio
+            ,tax.cd_moeda_para_taxa_cambio
+            ,moepara.nm_moeda as nm_moeda_para_taxa_cambio
+            ,tax.vl_medio_taxa_cambio
+            ,tax.vl_fechamento_taxa_cambio
         from stg_taxas_cambio tax
-        left join stg_moedas moede on moede.cd_moeda = tax.cd_moeda_de
-        left join stg_moedas moepara on moepara.cd_moeda = tax.cd_moeda_para
+        left join stg_moedas moede on moede.cd_moeda = tax.cd_moeda_de_taxa_cambio
+        left join stg_moedas moepara on moepara.cd_moeda = tax.cd_moeda_para_taxa_cambio
     )
 
     ,refined as (
@@ -29,3 +29,4 @@ with
     )
 
 select * from refined 
+

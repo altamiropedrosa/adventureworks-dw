@@ -1,15 +1,17 @@
 with 
-    stg_vendas_motivos as (
-        select * from {{ ref('stg_sap_adw_vendas_motivos') }}
+    stg_motivos_vendas as (
+        select * from {{ ref('stg_sap_adw_motivos_vendas') }}
     )
+
 
     ,join_tables as (
         select
             id_motivo_venda
             ,nm_motivo_venda
-            ,cd_motivo_razao
+            ,cd_motivo_venda
             ,dt_modificacao
-        from stg_vendas_motivos
+        from stg_motivos_vendas
+
     )
 
     ,refined as (
@@ -20,3 +22,4 @@ with
     )
 
 select * from refined 
+

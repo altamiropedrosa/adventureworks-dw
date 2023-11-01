@@ -47,7 +47,10 @@ models:
     utils:
       +materialized: table
       +schema: sap_adw
-
+    intermediate:
+      +materialized: view
+      +schema: intermediate
+      
 snapshots:
   +target_schema: dbt_apedrosa_history
 

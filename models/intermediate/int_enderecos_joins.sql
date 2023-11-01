@@ -26,12 +26,10 @@ with
             ,est.cd_estado
             ,est.nm_estado
             ,edr.nr_cep
-            ,edr.ds_dados_geograficos
             ,est.cd_pais
             ,pai.nm_pais
-            ,est.id_territorio
-            ,ter.nm_territorio
             ,ter.ds_grupo_territorio
+            ,edr.ds_localizacao_espacial
         from stg_enderecos edr
         left join stg_estados est on est.id_estado = edr.id_estado
         left join stg_vendas_territorios ter on ter.id_territorio = est.id_territorio

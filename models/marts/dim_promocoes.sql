@@ -1,4 +1,5 @@
 with 
+
     stg_promocoes as (
         select * from {{ ref('stg_sap_adw_promocoes') }}
     )
@@ -6,14 +7,14 @@ with
     ,join_tables as (
         select 
             pro.id_promocao
-            ,pro.ds_promocao
-            ,pro.pc_desconto
+            ,pro.nm_promocao
+            ,pro.pc_desconto_promocao
             ,pro.ds_tipo_promocao
             ,pro.ds_categoria_promocao
             ,pro.dt_inicio_promocao
             ,pro.dt_fim_promocao
-            ,pro.qt_minima
-            ,pro.qt_maxima
+            ,pro.qt_minima_promocao
+            ,pro.qt_maxima_promocao
         from stg_promocoes pro
     )
 
@@ -25,3 +26,4 @@ with
     )
 
 select * from refined 
+
