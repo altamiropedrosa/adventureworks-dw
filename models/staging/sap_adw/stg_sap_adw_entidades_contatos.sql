@@ -19,4 +19,4 @@ with
 
     )
 
-select * from renamed where id_entidade = 298
+select * from renamed

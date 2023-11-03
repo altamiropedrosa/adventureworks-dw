@@ -1,12 +1,15 @@
 with 
-
-    stg_promocoes as (
+    stg_promocoes_produtos as (
+        select * from {{ ref('stg_sap_adw_promocoes_produtos') }}
+    )
+    ,stg_promocoes as (
         select * from {{ ref('stg_sap_adw_promocoes') }}
     )
     
     ,join_tables as (
         select 
-            pro.id_promocao
+            proprd.id_produto
+            ,pro.id_promocao
             ,pro.nm_promocao
             ,pro.pc_desconto_promocao
             ,pro.ds_tipo_promocao
@@ -15,13 +18,16 @@ with
             ,pro.dt_fim_promocao
             ,pro.qt_minima_promocao
             ,pro.qt_maxima_promocao
-        from stg_promocoes pro
+            ,proprd.dt_modificacao
+        from stg_promocoes_produtos proprd
+        inner join stg_promocoes pro on pro.id_promocao = proprd.id_promocao
     )
 
     ,refined as (
         select 
-            {{ dbt_utils.generate_surrogate_key(['id_promocao']) }} as sk_promocao
+            {{ dbt_utils.generate_surrogate_key(['id_promocao','id_produto']) }} as sk_promocao
             ,join_tables.*
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', current_timestamp, 'America/Sao_Paulo') as timestamp) as dt_carga
         from join_tables
     )
 

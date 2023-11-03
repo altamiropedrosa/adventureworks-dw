@@ -9,7 +9,7 @@ with
     )
     ,array_telefones as (
         select 
-            id_pessoa 
+            tel.id_pessoa
             ,string_agg(tiptel.nm_tipo_telefone, ' | ') as nm_tipos_telefones
             ,string_agg(tel.nr_telefone, ' | ') as nr_telefones
         from stg_pessoas_telefones tel 
@@ -18,4 +18,4 @@ with
     )
 
 
-select * from  array_telefones  
+select * from  array_telefones --where id_pessoa = 1704

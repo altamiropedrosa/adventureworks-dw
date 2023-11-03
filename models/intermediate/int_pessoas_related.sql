@@ -3,18 +3,16 @@ with
         select *
         from {{ ref('stg_sap_adw_pessoas') }}
     )
-    ,stg_emails as (
-        select *
-        from {{ ref('stg_sap_adw_pessoas_emails') }}
+    ,stg_pessoas_emails as (
+        select 
+            row_number() over(partition by id_pessoa order by dt_modificacao desc, id_email desc) as linha
+            ,ema.*
+        from {{ ref('stg_sap_adw_pessoas_emails') }} ema
     )  
     ,int_telefones as (
         select *
-        from {{ ref('int_telefones_joins') }} 
+        from {{ ref('int_telefones_related') }} 
     )
-    ,int_entidades as (
-        select *
-        from {{ ref('int_entidades_joins') }}
-    )  
 
 
     ,join_tables as (
@@ -24,16 +22,14 @@ with
             ,pes.nm_pessoa
             ,pes.cd_email_promocional     
             ,ema.ds_email
-            ,pes.ds_contato_adicional
-            ,pes.ds_dados_demograficos
             ,inttel.nm_tipos_telefones
             ,inttel.nr_telefones
-            ,intent.*
+            ,pes.ds_contato_adicional
+            ,pes.ds_dados_demograficos
+            ,pes.dt_modificacao
         from stg_pessoas pes 
-        left join stg_emails ema on ema.id_pessoa = pes.id_pessoa
+        left join stg_pessoas_emails ema on ema.id_pessoa = pes.id_pessoa and ema.linha = 1
         left join int_telefones inttel on inttel.id_pessoa = pes.id_pessoa
-        left join int_entidades intent on intent.id_entidade = pes.id_pessoa
     )  
 
-select * from stg_pessoas --where id_pessoa = 1704
-
+select * from join_tables --where id_pessoa = 1704 and linha = 1

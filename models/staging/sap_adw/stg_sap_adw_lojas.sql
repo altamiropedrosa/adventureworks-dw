@@ -20,4 +20,4 @@ with
 
     )
 
-select * from renamed where id_loja = 298
+select * from renamed

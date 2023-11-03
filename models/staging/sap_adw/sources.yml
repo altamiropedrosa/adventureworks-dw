@@ -150,6 +150,39 @@ sources:
               - dbt_expectations.expect_column_to_exist
 
 
+      - name: countryregioncurrency
+        description: Tabela de moedas de países
+        tests:
+          - dbt_expectations.expect_table_column_count_to_equal:
+              value: 3
+        columns:
+          - name: countryregioncode
+            description: Código do país. Chave primária (PK) e estrangeira (FK) da tabela de países
+            data_type: string
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
+              - relationships:
+                  field: countryregioncode
+                  to: ref('countryregion')
+          
+          - name: currencycode
+            description: Código da moeda. Chave primária (PK) e estrangeira (FK) da tabela de moedas
+            data_type: string
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
+              - relationships:
+                  field: currencycode
+                  to: ref('currency')
+          
+          - name: modifieddate
+            description: Data e hora em que o registro foi atualizado pela última vez
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_to_exist
+
+
       - name: salesterritory
         description: Tabela de territórios de vendas
         tests:

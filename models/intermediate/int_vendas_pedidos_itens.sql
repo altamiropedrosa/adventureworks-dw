@@ -7,7 +7,10 @@ with
         select *
         from {{ ref('stg_sap_adw_vendas_pedidos_itens') }}
     )
-
+    ,stg_clientes as (
+        select *
+        from {{ ref('stg_sap_adw_clientes') }}
+    )
 
     ,vendas_pedidos_itens_summary as (
         select  
@@ -22,15 +25,20 @@ with
 
     ,join_tables as (
         select
+            --DADOS DO PEDIDO DE VENDAS
             ped.id_pedido_venda
             ,ped.nr_ordem_compra
             ,ped.nr_conta_financeira
             ,ped.nr_revisao_pedido
+            ,ped.cd_aprovacao_cartao_credito
+            ,ped.cd_status
+            ,ped.is_pedido_realizado_cliente
+            --DADOS DE DATAS
             ,ped.dt_pedido
             ,ped.dt_pagamento
             ,ped.dt_envio
-            ,ped.cd_status
-            ,ped.is_pedido_realizado_cliente
+            --DADOS FK
+            ,cli.id_loja
             ,ped.id_cliente
             ,ped.id_vendedor
             ,ped.id_territorio
@@ -38,9 +46,8 @@ with
             ,ped.id_endereco_entrega
             ,ped.id_forma_envio
             ,ped.id_cartao_credito
-            ,ped.cd_aprovacao_cartao_credito
             ,ped.id_taxa_cambio
-            --
+            --DADOS DOS ITENS DO PEDIDO DE VENDAS
             ,pedite.id_pedido_venda_item
             ,pedite.nr_rastreamento
             ,pedite.id_promocao
@@ -57,6 +64,7 @@ with
         from stg_vendas_pedidos_itens pedite
         left join stg_vendas_pedidos ped on ped.id_pedido_venda = pedite.id_pedido_venda
         left join vendas_pedidos_itens_summary som on som.id_pedido_venda = ped.id_pedido_venda
+        left join stg_clientes cli on cli.id_cliente = ped.id_cliente
     )
     
 
