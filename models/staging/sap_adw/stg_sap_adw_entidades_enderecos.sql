@@ -9,7 +9,7 @@ with
     ,renamed as (
 
         select
-            cast(businessentityid as int) as id_entidade_negocio
+            cast(businessentityid as int) as id_entidade
             ,cast(addressid as int) as id_endereco
             ,cast(addresstypeid as int) as id_tipo_endereco
             ,rowguid
@@ -20,3 +20,4 @@ with
     )
 
 select * from renamed
+

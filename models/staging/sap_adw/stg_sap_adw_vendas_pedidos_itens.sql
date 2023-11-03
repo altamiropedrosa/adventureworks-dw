@@ -24,7 +24,7 @@ with
 
     )
 
-select * from renamed where id_pedido_venda = 46607
+select * from renamed
 
 
 

@@ -17,8 +17,8 @@ with
             ,trim(color) as ds_cor
             ,cast(safetystocklevel as int) as qt_minima_estoque
             ,cast(reorderpoint as int) as qt_minima_reabastecimento
-            ,coalesce(round(cast(standardcost as numeric),2),0) as vl_custo_producao
-            ,coalesce(round(cast(listprice as numeric),2),0) as vl_venda
+            ,coalesce(round(cast(standardcost as numeric),2),0) as vl_custo_produto
+            ,coalesce(round(cast(listprice as numeric),2),0) as vl_tabela_produto
             ,trim(size) as nr_tamanho
             ,trim(sizeunitmeasurecode) as cd_unidade_medida_tamanho
             ,trim(weightunitmeasurecode) as cd_unidade_medida_peso

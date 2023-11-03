@@ -9,8 +9,8 @@ with
     ,renamed as (
 
         select
-            cast(businessentityid as int) as id_entidade_negocio
-            ,cast(personid as int) as id_pessoa
+            cast(businessentityid as int) as id_entidade
+            ,cast(personid as int) as id_contato
             ,cast(contacttypeid as int) as id_tipo_contato
             ,rowguid
             ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', cast(modifieddate as timestamp)) as timestamp) as dt_modificacao        

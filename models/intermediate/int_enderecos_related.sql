@@ -11,10 +11,6 @@ with
         select cd_pais, nm_pais 
         from {{ ref('stg_sap_adw_paises') }}
     )
-    ,stg_vendas_territorios as (
-        select id_territorio, nm_territorio, ds_grupo_territorio
-        from {{ ref('stg_sap_adw_vendas_territorios') }}
-    )
 
 
     ,join_tables as (
@@ -26,16 +22,12 @@ with
             ,est.cd_estado
             ,est.nm_estado
             ,edr.nr_cep
-            ,edr.ds_dados_geograficos
             ,est.cd_pais
             ,pai.nm_pais
-            ,est.id_territorio
-            ,ter.nm_territorio
-            ,ter.ds_grupo_territorio
+            ,edr.dt_modificacao
         from stg_enderecos edr
         left join stg_estados est on est.id_estado = edr.id_estado
-        left join stg_vendas_territorios ter on ter.id_territorio = est.id_territorio
         left join stg_paises pai on pai.cd_pais = est.cd_pais
     )
 
-select * from join_tables 
+select * from join_tables

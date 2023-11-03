@@ -11,7 +11,7 @@ with
         select
             cast(businessentityid as int) as id_pessoa
             ,case when persontype = 'SC' then 'Lojista'
-                when persontype = 'IN' then 'Cliente'
+                when persontype = 'IN' then 'Pessoa Física'
                 when persontype = 'SP' then 'Vendedor'
                 when persontype = 'EM' then 'Empregado'
                 when persontype = 'VC' then 'Fornecedor'

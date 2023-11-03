@@ -7,9 +7,101 @@ models:
           compare_model: ref('stg_sap_adw_clientes')
     columns:
       - name: sk_cliente
-        description: Essa é a chave primaria (SK) da dimensão clientes.
+        description: Sk do cliente. Chave Surrogate key (SK) da dimensão clientes.
         tests:
           - unique
           - not_null
-      - name: id_pessoa
-        description: Essa é a chave natural do id
+      
+      - name: id_cliente
+        description: Id do cliente. Chave de negócio (NK) da tabela clientes
+        tests:
+          - unique
+          - not_null
+
+      - name: id_entidade
+        description: Id da entidade. Chave de negócio (NK) das tabelas entidades, pessoas e lojas
+
+      - name: cd_tipo_cliente
+        description: Código do tipo de cliente. Chave de negócio (NK) das tabelas entidades, pessoas e lojas
+        tests:
+          - accepted_values:
+              values: ['Pessoa Física', 'Loja', 'Lojista']
+
+      - name: nm_cliente
+        description: Nome do cliente
+
+      - name: ds_email_cliente
+        description: Descrição do e-mail do cliente. Chave de negócio (NK) da tabela emails
+
+      - name: nm_tipos_telefones_cliente
+        description: Tipos de telefones do Cliente. Array de tipos de telefones separados por pipe (|)
+
+      - name: nr_telefones_cliente
+        description: Números de telefones do Cliente. Array de telefones separados por pipe (|)
+
+      - name: id_tipo_endereco
+        description: Id do tipo de endereço. Chave de negócio (NK) da tabela tipos de endereços
+
+      - name: nm_tipo_endereco
+        description: Nome do tipo de endereço
+
+      - name: id_endereco
+        description: Id do endereço do cliente. Chave de negócio (NK) da tabela endereços
+
+      - name: ds_endereco
+        description: Descrição do endereço do cliente
+
+      - name: nm_cidade
+        description: Nome da cidade do endereço do cliente
+
+      - name: cd_estado
+        description: Código do estado do endereço do cliente
+
+      - name: nm_estado
+        description: Nome do estado do endereço do cliente
+
+      - name: nr_cep
+        description: CEP do endereço do cliente
+
+      - name: cd_pais
+        description: Código do país do endereço do cliente
+
+      - name: nm_pais
+        description: Nome do país do endereço do cliente
+
+      - name: id_territorio
+        description: Id do território do cliente. Chave de negócio (NK) da tabela territórios
+
+      - name: nm_territorio
+        description: Nome do território do cliente
+
+      - name: ds_grupo_territorio
+        description: Descrição do grupo território do cliente
+
+      - name: cd_moeda
+        description: Código da moeda do território do cliente
+
+      - name: nm_moeda
+        description: Nome da moeda do território do cliente
+
+      - name: is_cliente_recorrente
+        description: Flag de marcação se o cliente é recorrente (>1 pedido)
+
+      - name: dt_primeiro_pedido
+        description: Data do primeiro pedido realizado pelo cliente
+
+      - name: dt_ultimo_pedido
+        description: Data do último pedido realizado pelo cliente
+
+      - name: qt_pedido
+        description: Quantidade total de pedidos realizados pelo cliente
+
+      - name: vl_total_pedido
+        description: Valor total de pedidos realizados pelo cliente
+
+      - name: dt_modificacao
+        description: Data de modificação do registro
+
+      - name: dt_carga
+        description: Data de carga do registro
+

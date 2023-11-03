@@ -1,11 +1,13 @@
 with 
     vendas_em_2011 as (
-        select round(sum(vl_subtotal),2) as total_bruto_vendido
-        from {{ ref('fct_pedido_vendas') }}
-        where cast(dt_pedido as date) between '2011-01-01' and '2011-12-31'
+        select round(sum(vl_bruto_item),2) as vl_bruto
+        from {{ ref('fct_vendas_pedidos') }}
+        where ano_pedido = 2011
     )
 
-
-select total_bruto_vendido
+select vl_bruto
 from vendas_em_2011
---where total_bruto_vendido not between 658388 and 658389
+where vl_bruto not between 12646112 and 12646113
+
+
+

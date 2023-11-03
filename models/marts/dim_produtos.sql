@@ -25,8 +25,8 @@ with
             ,prd.ds_cor
             ,prd.qt_minima_estoque
             ,prd.qt_minima_reabastecimento
-            ,round(prd.vl_custo_producao,2) as vl_custo_producao
-            ,round(prd.vl_venda,2) as vl_venda
+            ,round(prd.vl_custo_produto,2) as vl_custo_produto
+            ,round(prd.vl_tabela_produto,2) as vl_tabela_produto
             ,prd.nr_tamanho
             ,prd.nr_peso
             ,prd.cd_unidade_medida_tamanho
@@ -46,6 +46,7 @@ with
             ,prd.dt_inicio_venda
             ,prd.dt_fim_venda
             ,prd.is_descontinuado
+            ,prd.dt_modificacao
         from stg_produtos prd
         left join stg_subcategoria_produtos sub on sub.id_subcategoria_produto = prd.id_subcategoria_produto
         left join stg_categoria_produtos cat on cat.id_categoria_produto = sub.id_categoria_produto
@@ -57,8 +58,11 @@ with
     ,refined as (
         select 
             {{ dbt_utils.generate_surrogate_key(['id_produto']) }} as sk_produto
-            ,join_tables.*        
+            ,join_tables.*     
+            ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', current_timestamp, 'America/Sao_Paulo') as timestamp) as dt_carga
         from join_tables
     )
 
 select * from refined
+
+

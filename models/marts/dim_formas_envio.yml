@@ -1,0 +1,35 @@
+version: 2
+models:
+  - name: dim_formas_envio
+    description: Essa é a dimensão com informações de formas de envio dos pedidos da Adventure Works.
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('stg_sap_adw_formas_envios')
+    columns:
+      - name: sk_forma_envio
+        description: Sk da forma de envio. Chave Surrogate key (SK) da dimensão formas de envio
+        tests:
+          - unique
+          - not_null
+       
+      - name: id_forma_envio
+        description: Id da forma de envio. Chave de negócio (NK) da tabela formas_envio
+        tests:
+          - unique
+          - not_null
+
+      - name: nm_forma_envio
+        description: Nome da forma de envio
+
+      - name: vl_envio_minimo
+        description: Valor e envio mínimo 
+
+      - name: vl_envio_por_kg
+        description: Valor de envio por Kg
+
+      - name: dt_modificacao
+        description: Data de modificação do registro
+
+      - name: dt_carga
+        description: Data de carga do registro
+
