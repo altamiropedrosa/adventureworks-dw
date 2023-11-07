@@ -30,7 +30,7 @@ with
             ,pai.nm_pais
             ,moe.cd_moeda
             ,moe.nm_moeda
-            ,ter.ds_grupo_territorio
+            ,ter.ds_grupo_territorial
             ,ter.vl_venda_ytd
             ,ter.vl_venda_ultimo_ano
             ,ter.vl_custo_ytd

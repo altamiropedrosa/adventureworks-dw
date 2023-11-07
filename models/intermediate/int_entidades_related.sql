@@ -53,9 +53,10 @@ with
             ,tipcon.nm_tipo_contato
             ,con.id_pessoa as id_contato
             ,con.nm_pessoa as nm_contato
-            ,con.ds_email as ds_email_contato
-            ,con.nm_tipos_telefones
-            ,con.nr_telefones
+            ,con.ds_email_primario as ds_email_primario_contato
+            ,con.ds_email_secundario as ds_email_secundario_contato
+            ,con.nm_tipos_telefones as nm_tipos_telefones_contato
+            ,con.nr_telefones as nr_telefones_contato
             ,ent.dt_modificacao
         from stg_entidades ent 
         left join stg_entidades_enderecos entedr on entedr.id_entidade = ent.id_entidade and entedr.linha = 1

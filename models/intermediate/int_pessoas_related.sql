@@ -21,15 +21,17 @@ with
             ,pes.cd_tipo_pessoa
             ,pes.nm_pessoa
             ,pes.cd_email_promocional     
-            ,ema.ds_email
+            ,emapri.ds_email as ds_email_primario
+            ,emasec.ds_email as ds_email_secundario
             ,inttel.nm_tipos_telefones
             ,inttel.nr_telefones
             ,pes.ds_contato_adicional
             ,pes.ds_dados_demograficos
             ,pes.dt_modificacao
         from stg_pessoas pes 
-        left join stg_pessoas_emails ema on ema.id_pessoa = pes.id_pessoa and ema.linha = 1
+        left join stg_pessoas_emails emapri on emapri.id_pessoa = pes.id_pessoa and emapri.linha = 1
+        left join stg_pessoas_emails emasec on emasec.id_pessoa = pes.id_pessoa and emasec.linha = 2
         left join int_telefones inttel on inttel.id_pessoa = pes.id_pessoa
     )  
 
-select * from join_tables --where id_pessoa = 1704 and linha = 1
+select * from join_tables --where id_pessoa = 1704

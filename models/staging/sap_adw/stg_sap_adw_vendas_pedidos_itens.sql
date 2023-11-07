@@ -24,18 +24,5 @@ with
 
     )
 
+
 select * from renamed
-
-
-
-
-
-
-/*select sum(total) as total 110.373.889.31
-from
-(
-select id_pedido_venda, sum(vl_unitario*qt_pedido) as total 
-from renamed
-group by id_pedido_venda
-)*/
-

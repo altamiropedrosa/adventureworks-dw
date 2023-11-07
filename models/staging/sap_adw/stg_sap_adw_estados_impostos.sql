@@ -13,7 +13,7 @@ with
             ,cast(stateprovinceid as int) as id_estado
             ,case when taxtype = 1 then 'Varejo'
                 when taxtype = 2 then 'Atacado'
-                when taxtype = 3 then 'Varejo & Atacado'
+                when taxtype = 3 then 'Atacado & Varejo'
             end as cd_tipo_imposto
             ,coalesce(round(cast(taxrate as numeric),2),0) as pc_imposto           
             ,trim(name) as nm_imposto

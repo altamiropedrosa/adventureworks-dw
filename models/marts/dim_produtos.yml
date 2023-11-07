@@ -1,0 +1,113 @@
+version: 2
+models:
+  - name: dim_produtos
+    description: Essa é a dimensão com informações de produtos da Adventure Works
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('stg_sap_adw_produtos')
+    columns:
+      - name: sk_produto
+        description: Sk da produto. Chave Surrogate key (SK) da dimensão
+        tests:
+          - unique
+          - not_null
+       
+      - name: id_produto
+        description: Id do produto. Chave de negócio (NK) da tabela de produtos
+        tests:
+          - not_null
+
+      - name: nm_produto
+        description: Nome do produto
+        tests:
+          - not_null
+
+      - name: nr_produto
+        description: Número do produto
+        tests:
+          - not_null
+ 
+      - name: is_producao_propria
+        description: Flag de marcação se o produto é produção própria
+
+      - name: is_item_vendavel
+        description: Flag de marcação se o pruduto é um item vendável
+
+      - name: ds_cor
+        description: Descrição da cor de produto
+
+      - name: qt_minima_estoque
+        description: Quantidade mínima de estoque do produto
+
+      - name: qt_minima_reabastecimento
+        description: Quantidade mínima para reabestecimento do produto
+
+      - name: vl_custo_produto
+        description: Valor de custo do produto
+
+      - name: vl_tabela_produto
+        description: Valor de tabela do produto
+
+      - name: nr_tamanho
+        description: Tamanho do produto
+
+      - name: nr_peso
+        description: Peso do produto
+
+      - name: cd_unidade_medida_tamanho
+        description: Código da unidade de medida do tamanho do produto. Chave de negócio (NK) da tabela de unidades de medida
+
+      - name: nm_unidade_medida_tamanho
+        description: Nome da unidade de medida do tamanho do produto
+  
+      - name: cd_unidade_medida_peso
+        description: Código da unidade de medida do peso do produto. Chave de negócio (NK) da tabela de unidades de medida
+
+      - name: nm_unidade_medida_peso
+        description: Nome da unidade de medida do peso do produto
+
+      - name: qt_dias_para_fabricacao
+        description: Quantidade de dias para fabricação do produto
+
+      - name: cd_linha_produto
+        description: Código da linha de produto
+
+      - name: cd_classificacao_produto
+        description: Código de classificação de produto
+
+      - name: cd_estilo_produto
+        description: Código do estilo de produto
+
+      - name: id_categoria_produto
+        description: Id da categoria do produto. Chave de negócio (NK) da tabela de categorias de produto
+
+      - name: nm_categoria_produto
+        description: Nome da categoria do produto
+
+      - name: id_subcategoria_produto
+        description: Id da sub-categoria do produto. Chave de negócio (NK) da tabela de categorias de produto
+
+      - name: nm_subcategoria_produto
+        description: Nome da sub-categoria do produto
+
+      - name: id_modelo_produto
+        description: Id do modelo do produto. Chave de negócio (NK) da tabela de modelos de produto
+            
+      - name: nm_modelo_produto
+        description: Nome do modelo do produto
+
+      - name: dt_inicio_venda
+        description: Data de início de venda do produto
+            
+      - name: dt_fim_venda
+        description: Data de fim de venda do produto
+            
+      - name: is_descontinuado
+        description: Flag de marcação se o produto foi descontinuado
+
+      - name: dt_modificacao
+        description: Data de modificação do registro
+
+      - name: dt_carga
+        description: Data de carga do registro
+

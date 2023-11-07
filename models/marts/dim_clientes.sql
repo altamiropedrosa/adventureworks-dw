@@ -8,7 +8,7 @@ with
         from {{ ref('stg_sap_adw_lojas') }}
     )
     ,stg_vendas_territorios as (
-        select id_territorio, nm_territorio, cd_pais, ds_grupo_territorio
+        select id_territorio, nm_territorio, cd_pais, ds_grupo_territorial
         from {{ ref('stg_sap_adw_vendas_territorios') }}
     )
     ,int_entidades as (
@@ -37,73 +37,54 @@ with
             ,count(distinct id_pedido_venda) as qt_pedido
             ,count(distinct id_pedido_venda) > 1 as is_cliente_recorrente
             ,DATETIME_DIFF(cast(max(dt_pedido) as datetime), cast(min(dt_pedido) as datetime), MONTH) as qt_meses_priult_pedido
+            ,sum(vl_bruto_item) as vl_bruto_pedido
             ,sum(vl_total_item) as vl_total_pedido
         from int_vendas_pedidos_itens
         group by id_cliente
     )
 
 
-    ,cliente_pf as (
+    ,cliente_varejo as (
         select 
             --DADOS DO CLIENTE
             cli.id_cliente
             ,cli.id_pessoa as id_entidade
-            ,'Pessoa Física' as cd_tipo_cliente
+            ,'Varejo' as cd_tipo_cliente
             ,pes.nm_pessoa as nm_cliente
-            ,pes.ds_email as ds_email_cliente
+            ,pes.ds_email_primario as ds_email_primario_cliente
+            ,pes.ds_email_secundario as ds_email_secundario_cliente
             ,pes.nm_tipos_telefones as nm_tipos_telefones_cliente
             ,pes.nr_telefones as nr_telefones_cliente
             ,cli.id_territorio
             ,cli.dt_modificacao
         from stg_clientes cli
         inner join int_pessoas pes on pes.id_pessoa = cli.id_pessoa
-        where cli.id_pessoa is not null and cli.id_loja is null
+        where cli.id_loja is null and cli.id_pessoa is not null
     )
-    ,cliente_loja as (
+    ,cliente_atacado as (
         select 
             --DADOS DO CLIENTE
             cli.id_cliente
             ,loj.id_loja as id_entidade
-            ,'Loja' as cd_tipo_cliente
+            ,'Atacado' as cd_tipo_cliente
             ,loj.nm_loja as nm_cliente
-            ,ent.ds_email_contato as ds_email_cliente
-            ,ent.nm_tipos_telefones as nm_tipos_telefones_cliente
-            ,ent.nr_telefones as nr_telefones_cliente
+            ,ent.ds_email_primario_contato as ds_email_primario_cliente
+            ,ent.ds_email_secundario_contato as ds_email_secundario_cliente
+            ,ent.nm_tipos_telefones_contato as nm_tipos_telefones_cliente
+            ,ent.nr_telefones_contato as nr_telefones_cliente
             ,cli.id_territorio
             ,cli.dt_modificacao
         from stg_clientes cli
         inner join stg_lojas loj on loj.id_loja = cli.id_loja
         inner join int_entidades ent on ent.id_entidade = loj.id_loja
-        where cli.id_loja is not null and cli.id_pessoa is null
+        left join int_pessoas pes on pes.id_pessoa = cli.id_pessoa
+        where cli.id_loja is not null
     )
-    ,cliente_lojista as (
-        select 
-            --DADOS DO CLIENTE
-            cli.id_cliente
-            ,cli.id_pessoa as id_entidade
-            ,'Lojista' as cd_tipo_cliente
-            ,concat(pes.nm_pessoa,' [',loj.nm_loja,' ]') as nm_cliente
-            ,pes.ds_email as ds_email_cliente
-            ,pes.nm_tipos_telefones as nm_tipos_telefones_cliente
-            ,pes.nr_telefones as nr_telefones_cliente
-            ,cli.id_territorio
-            ,cli.dt_modificacao
-        from stg_clientes cli
-        inner join int_pessoas pes on pes.id_pessoa = cli.id_pessoa
-        inner join stg_lojas loj on loj.id_loja = cli.id_loja
-        left join cliente_loja cliloj on cliloj.id_cliente = cli.id_cliente
-        left join cliente_pf clipf on clipf.id_cliente = cli.id_cliente
-        where cli.id_loja is not null and cli.id_cliente is not null
-            and cliloj.id_cliente is null and clipf.id_cliente is null
-    )
-
 
     ,union_clientes as (
-        select * from cliente_pf
+        select * from cliente_varejo
         union all
-        select * from cliente_loja
-        union all
-        select * from cliente_lojista
+        select * from cliente_atacado
     )
 
 
@@ -114,25 +95,26 @@ with
             ,cli.id_entidade
             ,cli.cd_tipo_cliente
             ,cli.nm_cliente
-            ,cli.ds_email_cliente
+            ,cli.ds_email_primario_cliente
+            ,cli.ds_email_secundario_cliente
             ,cli.nm_tipos_telefones_cliente
             ,cli.nr_telefones_cliente
             --DADOS DE ENDEREÇO
-            ,ent.id_tipo_endereco
-            ,ent.nm_tipo_endereco
-            ,ent.id_endereco
-            ,ent.ds_endereco
-            ,ent.nm_cidade
-            ,ent.cd_estado
-            ,ent.nm_estado
-            ,ent.nr_cep
-            ,ent.cd_pais
-            ,ent.nm_pais
-            ,ter.id_territorio
-            ,ter.nm_territorio
-            ,ter.ds_grupo_territorio
-            ,ter.cd_moeda
-            ,ter.nm_moeda
+            ,ent.id_tipo_endereco as id_tipo_endereco_cliente
+            ,ent.nm_tipo_endereco as nm_tipo_endereco_cliente
+            ,ent.id_endereco  as id_endereco_cliente
+            ,ent.ds_endereco as ds_endereco_cliente
+            ,ent.nm_cidade as nm_cidade_cliente
+            ,ent.cd_estado as cd_estado_cliente
+            ,ent.nm_estado as nm_estado_cliente
+            ,ent.nr_cep as nr_cep_cliente
+            ,ent.cd_pais as cd_pais_cliente
+            ,ent.nm_pais as nm_pais_cliente
+            ,ter.id_territorio as id_territorio_cliente
+            ,ter.nm_territorio as nm_territorio_cliente
+            ,ter.ds_grupo_territorial as ds_grupo_territorial_cliente
+            ,ter.cd_moeda as cd_moeda_territorio_cliente
+            ,ter.nm_moeda as nm_moeda_territorio_cliente
             --DADOS DE LIFE TIME VALUE
             ,coalesce(ltv.is_cliente_recorrente,false) as is_cliente_recorrente
             ,ltv.dt_primeiro_pedido
@@ -155,4 +137,5 @@ with
     )
 
 
-select * from refined --where id_cliente = 20562
+select * from refined
+

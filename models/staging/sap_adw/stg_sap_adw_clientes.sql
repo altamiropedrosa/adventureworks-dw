@@ -19,4 +19,4 @@ with
 
     )
 
-select * from renamed
+select * from renamed --where id_cliente in (29484,585)

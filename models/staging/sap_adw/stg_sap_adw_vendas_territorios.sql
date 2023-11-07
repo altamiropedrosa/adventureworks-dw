@@ -12,7 +12,7 @@ with
             cast(territoryid as int) as id_territorio
             ,trim(name) as nm_territorio
             ,trim(countryregioncode) as cd_pais
-            ,trim(`group`) as ds_grupo_territorio
+            ,trim(`group`) as ds_grupo_territorial
             ,coalesce(round(cast(salesytd as numeric),2),0) as vl_venda_ytd
             ,coalesce(round(cast(saleslastyear as numeric),2),0) as vl_venda_ultimo_ano
             ,coalesce(round(cast(costytd as numeric),2),0) as vl_custo_ytd

@@ -37,7 +37,8 @@ with
         select 
             ven.id_vendedor
             ,pes.nm_pessoa as nm_vendedor
-            ,pes.ds_email as ds_email_vendedor
+            ,pes.ds_email_primario as ds_email_primario_vendedor
+            ,pes.ds_email_secundario as ds_email_secundario_vendedor
             ,pes.nm_tipos_telefones
             ,pes.nr_telefones
             --DADOS DE ENDEREÇO
@@ -53,9 +54,7 @@ with
             ,ent.nm_pais
             ,ter.id_territorio
             ,ter.nm_territorio
-            ,ter.ds_grupo_territorio
-            ,ter.cd_moeda
-            ,ter.nm_moeda
+            ,ter.ds_grupo_territorial
             --DADOS DE VENDAS DO VENDEDOR
             ,ven.vl_cota_vendas
             ,ven.vl_bonus

@@ -7,7 +7,7 @@ with
             ,nm_pais
             ,cd_moeda
             ,nm_moeda
-            ,ds_grupo_territorio
+            ,ds_grupo_territorial
             ,vl_venda_ytd
             ,vl_venda_ultimo_ano
             ,vl_custo_ytd
@@ -24,4 +24,4 @@ with
         from int_territorios
     )
 
-select * from refined 
+select * from refined

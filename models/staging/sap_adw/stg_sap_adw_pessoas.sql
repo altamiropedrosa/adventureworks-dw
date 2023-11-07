@@ -10,12 +10,12 @@ with
 
         select
             cast(businessentityid as int) as id_pessoa
-            ,case when persontype = 'SC' then 'Lojista'
-                when persontype = 'IN' then 'Pessoa Física'
+            ,case when persontype = 'SC' then 'Contato Loja'
+                when persontype = 'IN' then 'Varejo'
                 when persontype = 'SP' then 'Vendedor'
-                when persontype = 'EM' then 'Empregado'
-                when persontype = 'VC' then 'Fornecedor'
-                when persontype = 'GC' then 'Geral'
+                when persontype = 'EM' then 'Funcionário'
+                when persontype = 'VC' then 'Contato Fornecedor'
+                when persontype = 'GC' then 'Contato Geral'
             end as cd_tipo_pessoa
             ,cast(namestyle as boolean) as is_estilo_oriental
             ,concat(coalesce(title,''),' ',
@@ -35,5 +35,6 @@ with
         from source
 
     )
+
 
 select * from renamed
