@@ -32,26 +32,27 @@ with
             ,ped.nr_revisao_pedido
             ,ped.cd_aprovacao_cartao_credito
             ,ped.cd_status
-            ,ped.is_pedido_realizado_cliente
-            --DADOS DE DATAS
+            ,ped.is_pedido_realizado_pelo_cliente
+            --DATAS
             ,ped.dt_pedido
             ,ped.dt_pagamento
             ,ped.dt_envio
-            --DADOS FK
-            ,cli.id_loja
+            --CHAVES ESTRANGEIRAS (FK)
             ,ped.id_cliente
             ,ped.id_vendedor
             ,ped.id_territorio
             ,ped.id_endereco_cobranca
             ,ped.id_endereco_entrega
             ,ped.id_forma_envio
+            ,case when ped.id_cartao_credito is null then false else true end as is_pagamento_cartao_credito
             ,ped.id_cartao_credito
             ,ped.id_taxa_cambio
-            --DADOS DOS ITENS DO PEDIDO DE VENDAS
+            --ITENS DO PEDIDO DE VENDAS
             ,pedite.id_pedido_venda_item
             ,pedite.nr_rastreamento
             ,pedite.id_promocao
             ,pedite.id_produto
+            --MÉTRICAS
             ,pedite.qt_pedido_item
             ,pedite.vl_unitario_item
             ,(pedite.vl_unitario_item * pedite.qt_pedido_item) as vl_bruto_item
@@ -64,30 +65,7 @@ with
         from stg_vendas_pedidos_itens pedite
         left join stg_vendas_pedidos ped on ped.id_pedido_venda = pedite.id_pedido_venda
         left join vendas_pedidos_itens_summary som on som.id_pedido_venda = ped.id_pedido_venda
-        left join stg_clientes cli on cli.id_cliente = ped.id_cliente
     )
     
 
-select * from join_tables --where id_pedido_venda = 48320
-
-/*
-select --distinct id_pedido_venda, 
-    sum(vl_bruto_item) as vl_bruto_item, 
-    sum(vl_desconto_item) as vl_desconto_item,
-    sum(vl_liquido_item) as vl_liquido_item,
-    sum(vl_imposto_item) as vl_imposto_item, 
-    sum(vl_frete_item) as vl_frete_item, 
-    sum(vl_total_item) as vl_total_item
-from join_tables
-where extract(year from cast(dt_pedido as date)) = 2011
---group by id_pedido_venda
-*/
-
-
-
-
-
-
-
-
- 
+select * from join_tables

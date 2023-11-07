@@ -1,0 +1,126 @@
+version: 2
+models:
+  - name: dim_vendedores
+    description: Essa é a dimensão com informações de vendedores da Adventure Works
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('stg_sap_adw_vendedores')
+    columns:
+      - name: sk_vendedor
+        description: Sk do vendedor. Chave Surrogate key (SK) da dimensão
+        tests:
+          - unique
+          - not_null
+       
+      - name: id_vendedor
+        description: Id do vendedor. Chave de negócio (NK) da tabela
+        tests:
+          - unique
+          - not_null
+
+      - name: nm_vendedor
+        description: Nome do vendedor
+        tests:
+          - not_null
+
+      - name: ds_email_primario_vendedor
+        description: E-mail primário do vendedor
+        tests:
+          - not_null
+ 
+      - name: ds_email_secundario_vendedor
+        description: E-mail secundário do vendedor
+
+      - name: nm_tipos_telefones
+        description: Tipos de telefones do vendedor. Array 
+
+      - name: nr_telefones
+        description: Telefones do vendedor. Array
+
+      - name: id_tipo_endereco
+        description: Id do tipo de endereço do vendedor. Chave de negócio (NK) da tabela de tipos de endereços
+
+      - name: nm_tipo_endereco
+        description: Nome do tipo de endereço do vendedor.
+
+      - name: id_endereco
+        description: Id do tipo de endereço do vendedor. Chave de negócio (NK) da tabela de endereços
+
+      - name: ds_endereco
+        description: Descrição do endereço do vendedor
+
+      - name: nm_cidade
+        description: Cidade do vendedor
+
+      - name: cd_estado
+        description: Código do estado do vendedor
+
+      - name: nm_estado
+        description: Nome do estado do vendedor
+
+      - name: nr_cep
+        description: CEP do vendedor
+
+      - name: cd_pais
+        description: Código do país do vendedor
+
+      - name: nm_pais
+        description: Nome do país do vendedor
+
+      - name: nr_cep
+        description: CEP do vendedor
+
+      - name: cd_pais
+        description: Código do país do vendedor
+
+      - name: nm_pais
+        description: Nome do país do vendedor
+
+      - name: id_territorio
+        description: Id do território do endereço do vendedor
+
+      - name: nm_territorio
+        description: Nome do território do endereço do vendedor
+       
+      - name: ds_grupo_territorio
+        description: Descrição do grupo do território do endereço do vendedor
+
+      - name: cd_moeda
+        description: Código da moeda do território do endereço do vendedor
+
+      - name: nm_moeda
+        description: Nome da moeda do território do endereço do vendedor
+
+      - name: vl_cota_vendas
+        description: Valor da cota de vendas do vendedor
+
+      - name: vl_bonus
+        description: Valor do bônus do vendedor
+
+      - name: pc_comissao
+        description: Percentual de comissão de vendas do vendedor
+
+      - name: vl_vendas_ytd
+        description: Valor de vendas YTD do vendedor
+
+      - name: vl_vendas_ultimo_ano
+        description: Valor de vendas do último ano do vendedor
+
+      - name: dt_primeira_venda
+        description: Data da primeira venda realizada pelo vendedor
+
+      - name: dt_ultima_venda
+        description: Data da última venda realizada pelo vendedor
+
+      - name: qt_total_venda
+        description: Total de vendas realizada pelo vendedor
+
+      - name: vl_total_venda
+        description: Valor total de vendas realizada pelo vendedor
+  
+      - name: dt_modificacao
+        description: Data de modificação do registro de vendas
+
+      - name: dt_carga
+        description: Data de carga do registro de vendas
+

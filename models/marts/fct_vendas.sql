@@ -1,5 +1,5 @@
 with
-    /*,stg_estados_impostos as (
+    /*stg_estados_impostos as (
         select id_imposto, id_estado, cd_tipo_imposto, pc_imposto
         from {{ ref('stg_sap_adw_estados_impostos') }}
     )*/
@@ -37,7 +37,7 @@ with
         from {{ ref('dim_cartoes_creditos') }}
     )
     ,dim_clientes as (
-        select sk_cliente, id_cliente, cd_tipo_cliente, nm_cliente, nm_cidade, nm_estado, nm_pais
+        select sk_cliente, id_cliente, cd_tipo_cliente, nm_cliente, nm_cidade_cliente, nm_estado_cliente, nm_pais_cliente
         from {{ ref('dim_clientes') }}
     )
     ,dim_enderecos as (
@@ -50,11 +50,12 @@ with
     )
     ,int_vendas_pedidos_itens as (
         select id_pedido_venda, id_pedido_venda_item, id_territorio, id_vendedor,
-            id_cartao_credito, id_cliente, id_endereco_cobranca, id_endereco_entrega,
-            id_forma_envio, id_produto, id_promocao, id_taxa_cambio,
-            dt_pedido, dt_pagamento, dt_envio, cd_status, is_pedido_realizado_cliente, 
-            qt_pedido_item, vl_unitario_item, vl_bruto_item, vl_desconto_item, 
-            vl_liquido_item, vl_imposto_item, vl_frete_item, vl_total_item
+            is_pagamento_cartao_credito, id_cartao_credito, id_cliente, 
+            id_endereco_cobranca, id_endereco_entrega, id_forma_envio, id_produto, 
+            id_promocao, id_taxa_cambio, dt_pedido, dt_pagamento, dt_envio, 
+            cd_status, is_pedido_realizado_pelo_cliente, qt_pedido_item, 
+            vl_unitario_item, vl_bruto_item, vl_desconto_item, vl_liquido_item, 
+            vl_imposto_item, vl_frete_item, vl_total_item
         from {{ ref('int_vendas_pedidos_itens') }}
     )
     
@@ -63,7 +64,7 @@ with
             pedite.id_pedido_venda
             ,pedite.id_pedido_venda_item
             ,pedite.cd_status
-            ,pedite.is_pedido_realizado_cliente
+            ,pedite.is_pedido_realizado_pelo_cliente
             --DADOS DE DATA DE PEDIDO
             ,dtped.sk_data as sk_data_pedido
             ,dtped.date_day as dt_pedido
@@ -83,24 +84,27 @@ with
             ,cli.sk_cliente
             ,cli.cd_tipo_cliente            
             ,cli.nm_cliente
-            ,cli.nm_cidade as nm_cidade_cliente
-            ,cli.nm_estado as nm_estado
-            ,cli.nm_pais as nm_pais_cliente
+            ,cli.nm_cidade_cliente
+            ,cli.nm_estado_cliente
+            ,cli.nm_pais_cliente
             --DADOS DE TERRITORIO
             ,ter.sk_territorio
-            ,ter.id_territorio
             ,ter.nm_territorio
-            ,ter.cd_pais
-            ,ter.nm_pais
-            ,ter.cd_moeda
-            ,ter.nm_moeda
-            ,ter.ds_grupo_territorio            
+            ,ter.nm_pais as nm_pais_territorio
+            ,ter.nm_moeda as nm_moeda_territorio
+            ,ter.ds_grupo_territorial 
             --DADOS DO VENDEDOR
             ,ven.sk_vendedor
             ,ven.nm_vendedor
             --DADOS DE ENTREGA
             ,endcob.sk_endereco as sk_endereco_cobranca
+            ,endcob.nm_cidade as nm_cidade_cobranca
+            ,endcob.nm_estado as nm_estado_cobranca
+            ,endcob.nm_pais as nm_pais_cobranca
             ,endent.sk_endereco as sk_endereco_entrega
+            ,endent.nm_cidade as nm_cidade_entrega
+            ,endent.nm_estado as nm_estado_entrega
+            ,endent.nm_pais as nm_pais_entrega
 		    --DADOS DE MOTIVOS DE VENDAS
             ,motven.is_motivo_promotion
             ,motven.cd_motivo_venda
@@ -109,6 +113,7 @@ with
             ,frm.sk_forma_envio
             ,frm.nm_forma_envio
             --DADOS DO CARTÃO DE CRÉDITO
+            ,pedite.is_pagamento_cartao_credito
             ,car.sk_cartao_credito
             ,car.cd_tipo_cartao_credito
             ,car.nm_responsavel as nm_responsavel_cartao_credito
@@ -137,6 +142,7 @@ with
             ,pedite.vl_imposto_item
             ,pedite.vl_frete_item
             ,pedite.vl_total_item
+            
         from int_vendas_pedidos_itens as pedite
         left join dim_datas dtped on dtped.date_day = cast(pedite.dt_pedido as date)
         left join dim_datas dtpag on dtpag.date_day = cast(pedite.dt_pagamento as date)
@@ -145,6 +151,7 @@ with
         left join dim_clientes cli on cli.id_cliente = pedite.id_cliente
         left join dim_enderecos endcob on endcob.id_endereco = pedite.id_endereco_cobranca
         left join dim_enderecos endent on endent.id_endereco = pedite.id_endereco_entrega
+        --left join stg_estados_impostos imp on imp.id_estado = endent.id_estado
         left join dim_formas_envio frm on frm.id_forma_envio = pedite.id_forma_envio
         left join dim_produtos prd on prd.id_produto = pedite.id_produto
         left join dim_promocoes prm on prm.id_promocao = pedite.id_promocao and pedite.id_produto = prm.id_produto
@@ -164,14 +171,4 @@ with
 
 
 select * from refined
-
-
-/*select sum(vl_bruto_item) as vl_bruto 
-    ,sum(vl_desconto_item) as vl_desconto
-    ,sum(vl_liquido_item) as vl_liquido
-    ,sum(vl_imposto_item) as vl_imposto
-    ,sum(vl_frete_item) as vl_frete
-    ,sum(vl_total_item) as vl_total
-from join_tables
-where ano_pedido = 2011*/
 

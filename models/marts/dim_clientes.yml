@@ -25,13 +25,16 @@ models:
         description: Código do tipo de cliente. Chave de negócio (NK) das tabelas entidades, pessoas e lojas
         tests:
           - accepted_values:
-              values: ['Pessoa Física', 'Loja', 'Lojista']
+              values: ['Varejo', 'Atacado']
 
       - name: nm_cliente
         description: Nome do cliente
 
-      - name: ds_email_cliente
-        description: Descrição do e-mail do cliente. Chave de negócio (NK) da tabela emails
+      - name: ds_email_primario_cliente
+        description: Descrição do e-mail primário do cliente 
+
+      - name: ds_email_secundario_cliente
+        description: Descrição do e-mail secundário do cliente
 
       - name: nm_tipos_telefones_cliente
         description: Tipos de telefones do Cliente. Array de tipos de telefones separados por pipe (|)
@@ -39,49 +42,49 @@ models:
       - name: nr_telefones_cliente
         description: Números de telefones do Cliente. Array de telefones separados por pipe (|)
 
-      - name: id_tipo_endereco
-        description: Id do tipo de endereço. Chave de negócio (NK) da tabela tipos de endereços
+      - name: id_tipo_endereco_cliente
+        description: Id do tipo de endereço do cliente. Chave de negócio (NK) da tabela tipos de endereços
 
-      - name: nm_tipo_endereco
-        description: Nome do tipo de endereço
+      - name: nm_tipo_endereco_cliente
+        description: Nome do tipo de endereço do cliente
 
-      - name: id_endereco
+      - name: id_endereco_cliente
         description: Id do endereço do cliente. Chave de negócio (NK) da tabela endereços
 
-      - name: ds_endereco
+      - name: ds_endereco_cliente
         description: Descrição do endereço do cliente
 
-      - name: nm_cidade
+      - name: nm_cidade_cliente
         description: Nome da cidade do endereço do cliente
 
-      - name: cd_estado
+      - name: cd_estado_cliente
         description: Código do estado do endereço do cliente
 
-      - name: nm_estado
+      - name: nm_estado_cliente
         description: Nome do estado do endereço do cliente
 
-      - name: nr_cep
+      - name: nr_cep_cliente
         description: CEP do endereço do cliente
 
-      - name: cd_pais
+      - name: cd_pais_cliente
         description: Código do país do endereço do cliente
 
-      - name: nm_pais
+      - name: nm_pais_cliente
         description: Nome do país do endereço do cliente
 
-      - name: id_territorio
+      - name: id_territorio_cliente
         description: Id do território do cliente. Chave de negócio (NK) da tabela territórios
 
-      - name: nm_territorio
+      - name: nm_territorio_cliente
         description: Nome do território do cliente
 
-      - name: ds_grupo_territorio
+      - name: ds_grupo_territorial_cliente
         description: Descrição do grupo território do cliente
 
-      - name: cd_moeda
+      - name: cd_moeda_territorio_cliente
         description: Código da moeda do território do cliente
 
-      - name: nm_moeda
+      - name: nm_moeda_territorio_cliente
         description: Nome da moeda do território do cliente
 
       - name: is_cliente_recorrente

@@ -1,0 +1,68 @@
+version: 2
+models:
+  - name: dim_promocoes
+    description: Essa é a dimensão com informações de promoções da Adventure Works
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('stg_sap_adw_promocoes_produtos')
+    columns:
+      - name: sk_promocao
+        description: Sk da promoção. Chave Surrogate key (SK) da dimensão
+        tests:
+          - unique
+          - not_null
+       
+      - name: id_produto
+        description: Id do produto. Chave de negócio (NK) da tabela de produtos
+        tests:
+          - not_null
+
+      - name: id_promocao
+        description: Id do promoção. Chave de negócio (NK) da tabela de promoções
+        tests:
+          - not_null
+
+      - name: nm_promocao
+        description: Nome da promoção
+        tests:
+          - not_null
+ 
+      - name: pc_desconto_promocao
+        description: Percentual de desconto da promoção
+
+      - name: ds_tipo_promocao
+        description: Descrição do tipo de promoção
+
+      - name: ds_categoria_promocao
+        description: Descrição da categoria de promoção
+
+      - name: dt_inicio_promocao
+        description: Data de início da promoção
+
+      - name: dt_fim_promocao
+        description: Data de fim da promoção
+
+      - name: qt_minima_promocao
+        description: Quantidade mínima da promoção
+
+      - name: qt_maxima_promocao
+        description: Quantidade máxima da promoção
+
+      - name: dt_primeira_venda
+        description: Data da primeira venda realizada pelo vendedor
+
+      - name: dt_ultima_venda
+        description: Data da última venda realizada pelo vendedor
+
+      - name: qt_total_venda
+        description: Total de vendas realizada pelo vendedor
+
+      - name: vl_total_venda
+        description: Valor total de vendas realizada pelo vendedor
+  
+      - name: dt_modificacao
+        description: Data de modificação do registro de vendas
+
+      - name: dt_carga
+        description: Data de carga do registro de vendas
+

@@ -1,0 +1,57 @@
+version: 2
+models:
+  - name: dim_taxas_cambio
+    description: Essa é a dimensão com informações de taxas de câmbio da Adventure Works
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('stg_sap_adw_taxas_cambio')
+    columns:
+      - name: sk_taxa_cambio
+        description: Sk da taxa de câmbio. Chave Surrogate key (SK) da dimensão
+        tests:
+          - unique
+          - not_null
+       
+      - name: id_taxa_cambio
+        description: Id da taxa de câmbio. Chave de negócio (NK) da tabela de taxas de câmbio
+        tests:
+          - unique
+          - not_null
+
+      - name: dt_taxa_cambio
+        description: Data de câmbio
+        tests:
+          - not_null
+
+      - name: cd_moeda_de_taxa_cambio
+        description: Código da moeda DE conversão de câmbio
+        tests:
+          - not_null
+ 
+      - name: nm_moeda_de_taxa_cambio
+        description: Nome da moeda DE conversão de câmbio
+        tests:
+          - not_null
+
+      - name: cd_moeda_para_taxa_cambio
+        description: Código da moeda PARA conversão de câmbio
+        tests:
+          - not_null
+ 
+      - name: nm_moeda_para_taxa_cambio
+        description: Nome da moeda PARA conversão de câmbio
+        tests:
+          - not_null
+
+      - name: vl_medio_taxa_cambio
+        description: Valor médio do dia da taxa de câmbio.
+
+      - name: vl_fechamento_taxa_cambio
+        description: Valor de fechamento da taxa de câmbio
+
+      - name: dt_modificacao
+        description: Data de modificação do registro
+
+      - name: dt_carga
+        description: Data de carga do registro
+

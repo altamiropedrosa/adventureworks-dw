@@ -1,0 +1,45 @@
+version: 2
+models:
+  - name: dim_cartoes_creditos
+    description: Essa é a dimensão com informações de cartões de créditos da Adventure Works.
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('stg_sap_adw_pessoas_cartoes_creditos')
+    columns:
+      - name: sk_cartao_credito
+        description: Sk do cartão de crédito. Chave Surrogate key (SK) da dimensão
+        tests:
+          - unique
+          - not_null
+      
+      - name: id_responsavel
+        description: Id do responsável. Chave de negócio (NK) da tabela pessoas
+        tests:
+          - not_null
+
+      - name: nm_responsavel
+        description: Nome do responsável pelo cartão de crédito
+
+      - name: id_cartao_credito
+        description: Id do cartão de crédito. Chave de negócio (NK) da tabelas cartões de créditos
+        tests:
+          - not_null
+
+      - name: cd_tipo_cartao_credito
+        description: Código do tipo de cartão de crédito
+
+      - name: nr_cartao_credito
+        description: Número do cartão de crédito
+
+      - name: nr_expiracao_mes_cartao_credito
+        description: Mês de expiração do cartão de crédito
+
+      - name: nr_expiracao_ano_cartao_credito
+        description: Ano de expiração do cartão de crédito
+
+      - name: dt_modificacao
+        description: Data de modificação do registro
+
+      - name: dt_carga
+        description: Data de carga do registro
+
