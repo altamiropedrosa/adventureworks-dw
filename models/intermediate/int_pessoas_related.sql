@@ -34,4 +34,5 @@ with
         left join int_telefones inttel on inttel.id_pessoa = pes.id_pessoa
     )  
 
-select * from join_tables --where id_pessoa = 1704
+
+select * from join_tables
