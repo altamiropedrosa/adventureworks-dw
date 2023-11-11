@@ -63,6 +63,7 @@ with
         from join_tables
     )
 
+
 select * from refined
 
 
