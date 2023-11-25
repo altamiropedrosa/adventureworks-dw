@@ -14,6 +14,7 @@ models:
        
       - name: id_vendedor
         description: Id do vendedor. Chave de negócio (NK) da tabela
+        data_type: int64
         tests:
           - unique
           - not_null
@@ -23,12 +24,12 @@ models:
         tests:
           - not_null
 
-      - name: ds_email_primario_vendedor
+      - name: ds_email_primario
         description: E-mail primário do vendedor
         tests:
           - not_null
  
-      - name: ds_email_secundario_vendedor
+      - name: ds_email_secundario
         description: E-mail secundário do vendedor
 
       - name: nm_tipos_telefones
@@ -37,14 +38,9 @@ models:
       - name: nr_telefones
         description: Telefones do vendedor. Array
 
-      - name: id_tipo_endereco
-        description: Id do tipo de endereço do vendedor. Chave de negócio (NK) da tabela de tipos de endereços
-
-      - name: nm_tipo_endereco
-        description: Nome do tipo de endereço do vendedor.
-
       - name: id_endereco
         description: Id do tipo de endereço do vendedor. Chave de negócio (NK) da tabela de endereços
+        data_type: int64
 
       - name: ds_endereco
         description: Descrição do endereço do vendedor
@@ -67,60 +63,45 @@ models:
       - name: nm_pais
         description: Nome do país do vendedor
 
-      - name: nr_cep
-        description: CEP do vendedor
-
-      - name: cd_pais
-        description: Código do país do vendedor
-
-      - name: nm_pais
-        description: Nome do país do vendedor
-
-      - name: id_territorio
-        description: Id do território do endereço do vendedor
-
       - name: nm_territorio
         description: Nome do território do endereço do vendedor
        
       - name: ds_grupo_territorio
         description: Descrição do grupo do território do endereço do vendedor
 
-      - name: cd_moeda
-        description: Código da moeda do território do endereço do vendedor
-
-      - name: nm_moeda
-        description: Nome da moeda do território do endereço do vendedor
-
       - name: vl_cota_vendas
         description: Valor da cota de vendas do vendedor
+        data_type: float64
 
       - name: vl_bonus
         description: Valor do bônus do vendedor
+        data_type: float64
 
       - name: pc_comissao
         description: Percentual de comissão de vendas do vendedor
-
-      - name: vl_vendas_ytd
-        description: Valor de vendas YTD do vendedor
-
-      - name: vl_vendas_ultimo_ano
-        description: Valor de vendas do último ano do vendedor
+        data_type: float64
 
       - name: dt_primeira_venda
         description: Data da primeira venda realizada pelo vendedor
+        data_type: datetime
 
       - name: dt_ultima_venda
         description: Data da última venda realizada pelo vendedor
+        data_type: datetime
 
-      - name: qt_total_venda
+      - name: qt_pedidos_venda
         description: Total de vendas realizada pelo vendedor
+        data_type: int64
 
       - name: vl_total_venda
         description: Valor total de vendas realizada pelo vendedor
+        data_type: float64
   
       - name: dt_modificacao
         description: Data de modificação do registro de vendas
+        data_type: datetime
 
       - name: dt_carga
         description: Data de carga do registro de vendas
+        data_type: datetime
 

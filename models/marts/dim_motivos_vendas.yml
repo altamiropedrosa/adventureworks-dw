@@ -1,39 +1,44 @@
 version: 2
 models:
   - name: dim_motivos_vendas
-    description: Essa é a dimensão com informações de motivos de pedidos de vendas da Adventure Works
+    description: Essa é a dimensão com informações de motivos de vendas da Adventure Works
     columns:
       - name: sk_motivo_venda
-        description: Sk do motivo de venda. Chave Surrogate key (SK) da dimensão motivos de vendas
+        description: Sk de motivo de venda. Chave Surrogate key (SK) da dimensão
         tests:
           - unique
           - not_null
        
       - name: id_pedido_venda
-        description: Id do motivo de venda. Chave de negócio (NK) da tabela pedidos de vendas
+        description: Id do pedido de venda. Chave de negócio (NK) da tabela pedidos de vendas
+        data_type: int64
         tests:
           - unique
           - not_null
 
-      - name: is_motivo_marketing
-        description: Flag de marcação se o motivo de venda é de Marketing
+      - name: is_motivo_venda_marketing
+        description: Flag de marcação se o o motivo de venda é Marketing
+        data_type: boolean
         tests:
           - not_null
 
-      - name: is_motivo_promotion
-        description: Flag de marcação se o motivo de venda é de Promoção
+      - name: is_motivo_venda_promotion
+        description: Flag de marcação se o o motivo de venda é Promotion
+        data_type: boolean
         tests:
           - not_null
 
       - name: nm_motivo_venda
-        description: Nome do motivo de venda
+        description: Nome do motivo de venda (Array separado por pipe)
 
       - name: cd_motivo_venda
-        description: Código do motivo de venda
+        description: Código do motivo de venda (Array separado por pipe)
 
       - name: dt_modificacao
-        description: Data de modificação do registro
+        data_type: datetime
+        description: Data de modificação do registro de vendas
 
       - name: dt_carga
-        description: Data de carga do registro
+        data_type: datetime
+        description: Data de carga do registro de vendas
 

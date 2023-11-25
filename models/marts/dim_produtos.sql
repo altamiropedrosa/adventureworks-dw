@@ -1,5 +1,8 @@
 with 
-    stg_categoria_produtos as (
+    stg_produtos as (
+        select * from {{ ref('stg_sap_adw_produtos') }}
+    )
+    ,stg_categoria_produtos as (
         select * from {{ ref('stg_sap_adw_produtos_categorias') }}
     )
     ,stg_subcategoria_produtos as (
@@ -11,11 +14,9 @@ with
     ,stg_unidademedida_produtos as (
         select * from {{ ref('stg_sap_adw_unidades_medidas') }}
     )
-    ,stg_produtos as (
-        select * from {{ ref('stg_sap_adw_produtos') }}
-    )
 
     ,join_tables as (
+
         select 
             prd.id_produto
             ,prd.nm_produto
@@ -53,14 +54,17 @@ with
         left join stg_modelo_produtos mod on mod.id_modelo_produto = prd.id_modelo_produto
         left join stg_unidademedida_produtos undtam on undtam.cd_unidade_medida = prd.cd_unidade_medida_tamanho
         left join stg_unidademedida_produtos undpes on undpes.cd_unidade_medida = prd.cd_unidade_medida_peso
+        
     )
 
     ,refined as (
+
         select 
             {{ dbt_utils.generate_surrogate_key(['id_produto']) }} as sk_produto
             ,join_tables.*     
             ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', current_timestamp, 'America/Sao_Paulo') as timestamp) as dt_carga
         from join_tables
+        
     )
 
 

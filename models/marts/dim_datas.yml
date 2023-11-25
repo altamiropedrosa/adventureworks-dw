@@ -1,0 +1,59 @@
+version: 2
+models:
+  - name: dim_datas
+    description: Essa é a dimensão com informações de datas da Adventure Works.
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('dim_datas')
+    columns:
+      - name: sk_data
+        description: Sk da data. Chave Surrogate key (SK) da dimensão datas
+        tests:
+          - unique
+          - not_null
+       
+      - name: date_day
+        description: Data no formato yyyy-mm-dd
+        data_type: date
+        tests:
+          - unique
+          - not_null
+
+      - name: day_of_week
+        description: Dia da semana
+        data_type: int64
+        tests:
+          - not_null
+
+      - name: day_of_month
+        description: Dia do mês
+        data_type: int64
+        tests:
+          - not_null
+
+      - name: day_of_year
+        description: Dia do ano
+        data_type: int64
+        tests:
+          - not_null
+
+      - name: month_of_year
+        description: Mês do ano (mm)
+        data_type: int64
+        tests:
+          - not_null
+
+      - name: year_number
+        description: Ano em número (yyyy)
+        data_type: int64
+        tests:
+          - not_null
+
+      - name: dt_modificacao
+        description: Data de modificação do registro
+        data_type: datetime
+
+      - name: dt_carga
+        description: Data de carga do registro
+        data_type: datetime
+

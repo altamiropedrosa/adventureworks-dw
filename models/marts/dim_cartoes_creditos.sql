@@ -10,6 +10,7 @@ with
     )
 
     ,join_tables as (
+
         select 
             pescar.id_pessoa as id_responsavel
             ,pes.nm_pessoa as nm_responsavel
@@ -22,15 +23,18 @@ with
         from stg_pessoas_cartoes_creditos pescar
         left join stg_cartoes_creditos car on car.id_cartao_credito = pescar.id_cartao_credito
         left join int_pessoas pes on pes.id_pessoa = pescar.id_pessoa
+
     )
 
     ,refined as (
+
         select 
             {{ dbt_utils.generate_surrogate_key(['id_cartao_credito','id_responsavel']) }} as sk_cartao_credito
             ,join_tables.*
             ,cast(format_timestamp('%Y-%m-%d %H:%M:%S', current_timestamp, 'America/Sao_Paulo') as timestamp) as dt_carga
         from join_tables
+        
     )
 
 
-select * from refined 
+select * from refined

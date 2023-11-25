@@ -44,6 +44,7 @@ with
 
         from source
     )
+    
 
 select * from renamed
 

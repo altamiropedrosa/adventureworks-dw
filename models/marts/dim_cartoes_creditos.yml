@@ -14,6 +14,7 @@ models:
       
       - name: id_responsavel
         description: Id do responsável. Chave de negócio (NK) da tabela pessoas
+        data_type: int64
         tests:
           - not_null
 
@@ -22,6 +23,7 @@ models:
 
       - name: id_cartao_credito
         description: Id do cartão de crédito. Chave de negócio (NK) da tabelas cartões de créditos
+        data_type: int64
         tests:
           - not_null
 
@@ -39,7 +41,9 @@ models:
 
       - name: dt_modificacao
         description: Data de modificação do registro
+        data_type: datetime
 
       - name: dt_carga
         description: Data de carga do registro
+        data_type: datetime
 
