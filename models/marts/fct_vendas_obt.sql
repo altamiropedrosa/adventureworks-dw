@@ -41,15 +41,41 @@ with
             ,pedite.id_pedido_venda_item
             ,pedite.cd_status
             ,pedite.is_pedido_realizado_pelo_cliente
-            ,dtped.sk_data as sk_data_pedido
-            ,dtpag.sk_data as sk_data_pagamento
-            ,dtenv.sk_data as sk_data_envio
-            ,frm.sk_forma_envio
-            ,motven.sk_motivo_venda
-            ,car.sk_cartao_credito
-            ,cli.sk_cliente
-            ,ven.sk_vendedor
-            ,prd.sk_produto
+            --DADOS DE DATA DE PEDIDO
+            ,dtped.date_day as dt_pedido
+            ,dtped.month_of_year as mes_pedido
+            ,dtped.year_number as ano_pedido
+            --DADOS DE DATA DE PEDIDO
+            ,dtpag.date_day as dt_pagamento
+            ,dtpag.month_of_year as mes_pagamento
+            ,dtpag.year_number as ano_pagamento
+            --DADOS DE DATA DE ENVIO
+            ,dtenv.date_day as dt_envio
+            ,dtenv.month_of_year as mes_envio
+            ,dtenv.year_number as ano_envio
+            --DADOS DE FORMAS ENVIO
+            ,frm.nm_forma_envio
+            --DADOS DE MOTIVOS DE VENDA
+            ,motven.cd_motivo_venda
+            ,motven.nm_motivo_venda
+            ,motven.is_motivo_venda_promotion
+            --DADOS DO CARTÃO DE CRÉDITO
+            ,car.cd_tipo_cartao_credito
+            --DADOS DO CLIENTE
+            ,cli.cd_tipo_cliente            
+            ,cli.nm_cliente
+            ,cli.nm_cidade
+            ,cli.nm_estado
+            ,cli.nm_pais
+            ,cli.nm_territorio
+            ,cli.ds_grupo_territorial 
+            --DADOS DO VENDEDOR
+            ,ven.nm_vendedor
+            --DADOS DE PRODUTOS
+            ,prd.nm_produto
+            ,prd.nm_categoria_produto
+            ,prd.nm_subcategoria_produto
+            ,prd.nm_modelo_produto
             /*METRICAS*/
             ,pedite.qt_pedido_item
             ,pedite.vl_unitario_item
@@ -73,15 +99,6 @@ with
 
     )
 
-    ,refined as (
 
-        select 
-            {{ dbt_utils.generate_surrogate_key(['id_pedido_venda','id_pedido_venda_item']) }} as sk_fct_vendas_pedidos
-            ,join_tables.*
-        from join_tables
-
-    )
-
-
-select * from refined
+select * from join_tables
 

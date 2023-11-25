@@ -14,6 +14,7 @@ models:
        
       - name: id_forma_envio
         description: Id da forma de envio. Chave de negócio (NK) da tabela formas_envio
+        data_type: int64
         tests:
           - unique
           - not_null
@@ -23,13 +24,17 @@ models:
 
       - name: vl_envio_minimo
         description: Valor e envio mínimo 
+        data_type: float64
 
       - name: vl_envio_por_kg
         description: Valor de envio por Kg
+        data_type: float64
 
       - name: dt_modificacao
         description: Data de modificação do registro
+        data_type: datetime
 
       - name: dt_carga
         description: Data de carga do registro
+        data_type: datetime
 

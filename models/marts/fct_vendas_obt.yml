@@ -1,0 +1,7 @@
+version: 2
+models:
+  - name: fct_vendas_obt
+    description: Essa é a fato com informações de vendas da Adventure Works no formato One Big Table (OBT)
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('stg_sap_adw_vendas_pedidos_itens')

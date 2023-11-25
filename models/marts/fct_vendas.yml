@@ -48,15 +48,6 @@ models:
               field: sk_cliente
               to: ref('dim_clientes')
 
-      - name: sk_territorio
-        description: Sk do território do pedido. Chave de negócio (NK) da dimensão territórios
-        tests:
-          - dbt_expectations.expect_column_to_exist
-          - not_null
-          - relationships:
-              field: sk_territorio
-              to: ref('dim_territorios')
-
       - name: sk_vendedor
         description: Sk do vendedor do pedido. Chave de negócio (NK) da dimensão vendedores
         tests:
@@ -65,23 +56,14 @@ models:
               field: sk_vendedor
               to: ref('dim_vendedores')
 
-      - name: sk_endereco_cobranca
-        description: Sk do endereço de cobrança. Chave de negócio (NK) da dimensão endereços
+      - name: sk_produto
+        description: Sk do produto do pedido. Chave de negócio (NK) da dimensão produtos
         tests:
           - dbt_expectations.expect_column_to_exist
           - not_null
           - relationships:
-              field: sk_endereco
-              to: ref('dim_enderecos')
-
-      - name: sk_endereco_entrega
-        description: Sk do endereço de entrega. Chave de negócio (NK) da dimensão endereços
-        tests:
-          - dbt_expectations.expect_column_to_exist
-          - not_null
-          - relationships:
-              field: sk_endereco
-              to: ref('dim_enderecos')
+              field: sk_produto
+              to: ref('dim_produtos')                
 
       - name: sk_forma_envio
         description: Sk da forma de envio. Chave de negócio (NK) da dimensão formas de envio
@@ -92,6 +74,14 @@ models:
               field: sk_forma_envio
               to: ref('dim_formas_envio')
 
+      - name: sk_motivo_venda
+        description: Sk do motivo de venda do pedido. Chave de negócio (NK) da dimensão motivos de venda
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - relationships:
+              field: sk_motivo_venda
+              to: ref('dim_motivos_vendas')
+
       - name: sk_cartao_credito
         description: Sk do cartão de crédito utilizado no pedido. Chave de negócio (NK) da dimensão cartões de créditos
         tests:
@@ -100,28 +90,3 @@ models:
               field: sk_cartao_credito
               to: ref('dim_cartoes_credito')
 
-      - name: sk_taxa_cambio
-        description: Sk da taxa de câmbio do dia do pedido. Chave de negócio (NK) da dimensão taxas de câmbio
-        tests:
-          - dbt_expectations.expect_column_to_exist
-          - relationships:
-              field: sk_taxa_cambio
-              to: ref('dim_taxas_cambio')              
-
-      - name: sk_promocao
-        description: Sk da promoção liberada no pedido. Chave de negócio (NK) da dimensão promoções
-        tests:
-          - dbt_expectations.expect_column_to_exist
-          - not_null
-          - relationships:
-              field: sk_promocao
-              to: ref('dim_promocoes')                   
-
-      - name: sk_produto
-        description: Sk do produto do pedido. Chave de negócio (NK) da dimensão produtos
-        tests:
-          - dbt_expectations.expect_column_to_exist
-          - not_null
-          - relationships:
-              field: sk_produto
-              to: ref('dim_produtos')                
